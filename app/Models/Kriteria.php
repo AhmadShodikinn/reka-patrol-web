@@ -20,4 +20,9 @@ class Kriteria extends Model
     {
         return $this->belongsTo(Jenis::class, 'id_jenis', 'id');
     }
+
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class, 'id_lokasi', 'id');
+    }
 }

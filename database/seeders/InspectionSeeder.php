@@ -2,69 +2,45 @@
 
 namespace Database\Seeders;
 
-use App\Models\Inspection;
-use App\Models\Kriteria;
-use App\Models\Position;
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Inspection;
+use App\Models\User;
+use App\Models\Kriteria;
+use Faker\Factory as Faker;
 
 class InspectionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        $worker = User::where('id_position', Position::where('position_name', '5R')->first()->id)->first(); // Worker dengan posisi 5R
-        $pic = User::where('id_position', Position::where('position_name', 'PIC')->first()->id)->first(); // PIC dengan posisi PIC
+        $faker = Faker::create();
 
-        // Mengambil beberapa kriteria untuk inspeksi
-        $kriteriaRapi = Kriteria::where('id_jenis', 1)->first();  // Kriteria untuk jenis 'Rapi'
-        $kriteriaResik = Kriteria::where('id_jenis', 2)->first();  // Kriteria untuk jenis 'Resik'
-        $kriteriaRingkas = Kriteria::where('id_jenis', 3)->first();  // Kriteria untuk jenis 'Ringkas'
+        // Ambil beberapa worker_id dan PIC_id dari tabel users yang sudah ada
+        $workers = User::all()->pluck('id')->toArray();
+        $pics = User::all()->pluck('id')->toArray();
+        $kriterias = Kriteria::all()->pluck('id')->toArray();
 
-        // Menambahkan data inspeksi
-        Inspection::create([
-            'worker_id' => $worker->id,
-            'PIC_id' => $pic->id,
-            'kriteria_id' => $kriteriaRapi->id,
-            'temuan_path' => 'path/to/temuan/inspeksi1.pdf',
-            'deskripsi_temuan' => 'Deskripsi temuan inspeksi pertama.',
-            'lokasi_inspeksi' => 'Area Workshop 1',
-            'nilai' => 'Baik',
-            'kesesuaian' => true,
-            'Tgl_pemeriksaan' => now(),
-            'tindak_lanjut_path' => 'path/to/tindak_lanjut/inspeksi1.pdf',
-            'deskripsi_tindak_lanjut' => 'Deskripsi tindak lanjut untuk inspeksi pertama.',
-        ]);
+        $lokasiInspeksi = ['Workshop', 'Gudang', 'Kantor'];
 
-        Inspection::create([
-            'worker_id' => $worker->id,
-            'PIC_id' => $pic->id,
-            'kriteria_id' => $kriteriaResik->id,
-            'temuan_path' => 'path/to/temuan/inspeksi2.pdf',
-            'deskripsi_temuan' => 'Deskripsi temuan inspeksi kedua.',
-            'lokasi_inspeksi' => 'Area Workshop 2',
-            'nilai' => 'Cukup',
-            'kesesuaian' => false,
-            'Tgl_pemeriksaan' => now(),
-            'tindak_lanjut_path' => 'path/to/tindak_lanjut/inspeksi2.pdf',
-            'deskripsi_tindak_lanjut' => 'Deskripsi tindak lanjut untuk inspeksi kedua.',
-        ]);
+        for ($i = 0; $i < 50; $i++) {
+            $kriteriaId = $faker->randomElement($kriterias);
+            $lokasi = $faker->randomElement($lokasiInspeksi);
+            $nilai = $faker->randomFloat(2, 1, 5);
+            $kesesuaian = $faker->boolean();
+            $tglPemeriksaan = $faker->dateTimeThisYear();
 
-        Inspection::create([
-            'worker_id' => $worker->id,
-            'PIC_id' => $pic->id,
-            'kriteria_id' => $kriteriaRingkas->id,
-            'temuan_path' => 'path/to/temuan/inspeksi3.pdf',
-            'deskripsi_temuan' => 'Deskripsi temuan inspeksi ketiga.',
-            'lokasi_inspeksi' => 'Area Workshop 3',
-            'nilai' => 'Kurang',
-            'kesesuaian' => false,
-            'Tgl_pemeriksaan' => now(),
-            'tindak_lanjut_path' => 'path/to/tindak_lanjut/inspeksi3.pdf',
-            'deskripsi_tindak_lanjut' => 'Deskripsi tindak lanjut untuk inspeksi ketiga.',
-        ]);
+            Inspection::create([
+                'worker_id' => $faker->randomElement($workers),
+                'PIC_id' => $faker->randomElement($pics),
+                'kriteria_id' => $kriteriaId,
+                'temuan_path' => $faker->imageUrl(640, 480, 'nature', true),
+                'deskripsi_temuan' => $faker->sentence(10),
+                'lokasi_inspeksi' => $lokasi,
+                'nilai' => $nilai,
+                'kesesuaian' => $kesesuaian,
+                'Tgl_pemeriksaan' => $tglPemeriksaan,
+                'tindak_lanjut_path' => $faker->imageUrl(640, 480, 'business', true),
+                'deskripsi_tindak_lanjut' => $faker->sentence(10),
+            ]);
+        }
     }
 }
