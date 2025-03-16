@@ -2,20 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\Jenis;
-use App\Models\Kriteria;
-use App\Models\Lokasi;
+use App\Models\Criteria;
+use App\Models\CriteriaType;
+use App\Models\Location;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class KriteriaSeeder extends Seeder
+class CriteriaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        // Kriteria untuk lokasi Workshop/Gudang
         $this->seedKriteria('Workshop/Gudang', 'Ringkas', [
             'Tidak ada barang yang tidak diperlukan di area mesin/tempat kerja.',
             'Tidak ada barang yang cacat/rusak di workshop/tempat kerja.',
@@ -124,17 +123,14 @@ class KriteriaSeeder extends Seeder
     private function seedKriteria(string $lokasi, string $jenisKriteria, array $kriterias)
     {
         // Ambil id_lokasi berdasarkan nama lokasi
-        $lokasiObj = Lokasi::where('nama_lokasi', $lokasi)->first();
+        $lokasiObj = Location::whereLocationName($lokasi)->first();
         if (!$lokasiObj) return; 
 
-        $jenis = Jenis::where('jenis_kriteria', $jenisKriteria)->first();
-        if (!$jenis) return;
-
         foreach ($kriterias as $kriteria) {
-            Kriteria::create([
-                'id_jenis' => $jenis->id,
-                'id_lokasi' => $lokasiObj->id, 
-                'Nama_kritera' => $kriteria,
+            Criteria::create([
+                'location_id' => $lokasiObj->id, 
+                'criteria_name' => $kriteria,
+                'criteria_type' => $jenisKriteria,
             ]);
         }
     }

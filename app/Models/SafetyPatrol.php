@@ -2,35 +2,31 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SafetyPatrol extends Model
 {
-    use HasFactory;
-
-    protected $table = 'safety_patrol';
-
     protected $fillable = [
         'worker_id', 
-        'PIC_id', 
-        'temuan_path', 
-        'deskripsi_temuan',
-        'lokasi', 
-        'kategori', 
-        'resiko', 
-        'Tgl_pemeriksaan',
-        'tindak_lanjut_path', 
-        'deskripsi_tindak_lanjut'
+        'pic_id', 
+        'findings_path', 
+        'findings_description',
+        'location', 
+        'category', 
+        'risk', 
+        'checkup_date',
+        'action_path', 
+        'action_description'
     ];
 
-    public function worker()
+    public function worker(): BelongsTo
     {
         return $this->belongsTo(User::class, 'worker_id');
     }
 
-    public function pic()
+    public function pic(): BelongsTo
     {
-        return $this->belongsTo(Position::class, 'PIC_id');
+        return $this->belongsTo(User::class, 'pic_id');
     }
 }
