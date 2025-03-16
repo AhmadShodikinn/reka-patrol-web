@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rekap_safety_patrol', function (Blueprint $table) {
+        Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->string('no');
-            $table->date('Tgl_terbit');
-            $table->date('Tgl_awal');
-            $table->date('Tgl_Akhir');
-            $table->string('Keterangan');
+            $table->string('location_name');
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rekap_safety_patrol');
+        Schema::dropIfExists('locations');
     }
 };

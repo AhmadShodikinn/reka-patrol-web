@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lokasi', function (Blueprint $table) {
+        Schema::create('criterias', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_lokasi');
+            $table->foreignId('location_id')->constrained();
+            $table->enum('criteria_type', ['Rapi', 'Resik', 'Rawat', 'Rajin', 'Ringkas']);
+            $table->string('criteria_name');
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lokasi');
+        Schema::dropIfExists('criterias');
     }
 };

@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Lokasi;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Location;
 use Illuminate\Database\Seeder;
 
-class LokasiSeeder extends Seeder
+class LocationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,8 +18,8 @@ class LokasiSeeder extends Seeder
         ];
 
         foreach ($lokasi as $lokasiSeed) {
-            Lokasi::create([
-                'nama_lokasi' => $lokasiSeed,
+            Location::create([
+                'location_name' => $lokasiSeed,
             ]);
         }
     }
