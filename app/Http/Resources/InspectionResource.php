@@ -21,7 +21,7 @@ class InspectionResource extends JsonResource
             'pic_id' => $this->pic_id,
             'pic' => UserResource::make($this->whenLoaded('pic')),
             'criteria_id' => $this->criteria_id,
-            'criteria' => $this->whenLoaded('criteria'),
+            'criteria' => CriteriaResource::make($this->whenLoaded('criteria')),
             'findings_path' => $this->findings_path,
             'findings_description' => $this->findings_description,
             'inspection_location' => $this->inspection_location,
