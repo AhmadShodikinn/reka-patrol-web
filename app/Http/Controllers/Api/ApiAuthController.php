@@ -20,4 +20,12 @@ class ApiAuthController extends Controller
             'message' => 'failed',
         ], 401);
     }
+
+    public function logout() {
+        auth()->user()->tokens()->delete();
+
+        return response()->json([
+            'message' => 'logged out',
+        ]);
+    }
 }
