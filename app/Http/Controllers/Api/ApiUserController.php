@@ -14,7 +14,7 @@ class ApiUserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::with('position')->paginate(request('per_page', 10)));
+        return UserResource::collection(User::with(request('relations') ?? [])->paginate(request('per_page', 10)));
     }
 
     /**
