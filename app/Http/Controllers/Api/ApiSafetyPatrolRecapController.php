@@ -14,7 +14,6 @@ class ApiSafetyPatrolRecapController extends Controller
      */
     public function index()
     {
-        logger(request()->all());
         return SafetyPatrolRecapResource::collection(SafetyPatrolRecap::with(request('relations') ?? [])->paginate(request('per_page', 10)));
     }
 
