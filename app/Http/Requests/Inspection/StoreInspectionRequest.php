@@ -11,7 +11,7 @@ class StoreInspectionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,17 @@ class StoreInspectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'worker_id' => ['nullable', 'exists:users,id'],
+            'pic_id' => ['nullable', 'exists:users,id'],
+            'criteria_id' => ['required', 'exists:criterias,id'],
+            'findings_path' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'findings_description' => ['required', 'string'],
+            'inspection_location' => ['required', 'string'],
+            'value' => ['required', 'string'],
+            'suitability' => ['required', 'boolean'],
+            'checkup_date' => ['required', 'date'],
+            'action_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'action_description' => ['nullable', 'string'],
         ];
     }
 }
