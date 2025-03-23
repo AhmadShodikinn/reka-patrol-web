@@ -28,7 +28,7 @@ class Inspection extends Model
 
     public function pic(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'PIC_id');
+        return $this->belongsTo(User::class, 'pic_id');
     }
 
     public function criteria(): BelongsTo
