@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('safety_patrols', function (Blueprint $table) {
             $table->id();
             $table->foreignId('worker_id')->constrained('users');
-            $table->foreignId('pic_id')->constrained('users');
+            $table->foreignId('pic_id')->nullable()->constrained('users');
             $table->string('findings_path');
             $table->string('findings_description');
             $table->string('location');
             $table->enum('category', ['UC', "CA"]);
             $table->string('risk');
             $table->date('checkup_date');
-            $table->string('action_path');
-            $table->string('action_description');
+            $table->string('action_path')->nullable();
+            $table->string('action_description')->nullable();
             $table->timestamps();
         });
     }
