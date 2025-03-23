@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('inspections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('worker_id')->constrained('users');
-            $table->foreignId('pic_id')->constrained('users');
+            $table->foreignId('pic_id')->nullable()->constrained('users');
             $table->foreignId('criteria_id')->constrained();
             $table->string('findings_path');
             $table->string('findings_description');
@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('value');
             $table->boolean('suitability');
             $table->date('checkup_date');
-            $table->string('action_path');
-            $table->string('action_description');
+            $table->string('action_path')->nullable();
+            $table->string('action_description')->nullable();
             $table->timestamps();
         });
     }

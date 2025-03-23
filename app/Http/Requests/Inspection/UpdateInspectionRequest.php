@@ -11,7 +11,7 @@ class UpdateInspectionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,17 @@ class UpdateInspectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'worker_id' => ['nullable', 'exists:users,id'],
+            'pic_id' => ['nullable', 'exists:users,id'],
+            'criteria_id' => ['nullable', 'exists:criteria,id'],
+            'findings_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'findings_description' => ['nullable', 'string'],
+            'inspection_location' => ['nullable', 'string'],
+            'value' => ['nullable', 'string'],
+            'suitability' => ['nullable', 'boolean'],
+            'checkup_date' => ['nullable', 'date'],
+            'action_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'action_description' => ['nullable', 'string'],
         ];
     }
 }
