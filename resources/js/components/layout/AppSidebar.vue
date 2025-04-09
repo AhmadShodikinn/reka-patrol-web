@@ -23,7 +23,7 @@
         <img
           v-if="isExpanded || isHovered || isMobileOpen"
           class="dark:hidden"
-          src="/public/storage/images/logo/logo.svg"
+          src="/public/storage//images/logo/logo.svg"
           alt="Logo"
           width="150"
           height="40"
@@ -31,7 +31,7 @@
         <img
           v-if="isExpanded || isHovered || isMobileOpen"
           class="hidden dark:block"
-          src="/public/storage/images/logo/logo-dark.svg"
+          src="/public/storage//images/logo/logo-dark.svg"
           alt="Logo"
           width="150"
           height="40"
