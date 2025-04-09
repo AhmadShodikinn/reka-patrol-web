@@ -3,25 +3,36 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Model
+class User extends Authenticatable
 {
-    use HasFactory;
-
-    protected $table = 'users';
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'id_position', 
-        'NIP', 
-        'fullname', 
-        'email', 
+        'position_id',
+        'nip',
+        'name',
+        'email',
         'password'
     ];
 
-    public function position()
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    public function position(): BelongsTo
     {
-        return $this->belongsTo(Position::class, 'id_position');
+        return $this->belongsTo(Position::class);
     }
 
 }

@@ -2,41 +2,37 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Inspection extends Model
 {
-    use HasFactory;
-
-    protected $table = 'inspection';
-
     protected $fillable = [
         'worker_id', 
-        'PIC_id', 
-        'kriteria_id', 
-        'temuan_path', 
-        'deskripsi_temuan',
-        'lokasi_inspeksi', 
-        'nilai', 
-        'kesesuaian', 
-        'Tgl_pemeriksaan',
-        'tindak_lanjut_path', 
-        'deskripsi_tindak_lanjut'
+        'pic_id', 
+        'criteria_id', 
+        'findings_path', 
+        'findings_description',
+        'inspection_location', 
+        'value', 
+        'suitability', 
+        'checkup_date',
+        'action_path', 
+        'action_description'
     ];
 
-    public function worker()
+    public function worker(): BelongsTo
     {
         return $this->belongsTo(User::class, 'worker_id');
     }
 
-    public function pic()
+    public function pic(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'PIC_id');
+        return $this->belongsTo(User::class, 'pic_id');
     }
 
-    public function kriteria()
+    public function criteria(): BelongsTo
     {
-        return $this->belongsTo(Kriteria::class, 'kriteria_id');
+        return $this->belongsTo(Criteria::class);
     }
 }

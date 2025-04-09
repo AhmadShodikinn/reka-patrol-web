@@ -4,7 +4,7 @@
     "useDefineForClassFields": true,
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
+    // "skipLibCheck": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -21,7 +21,7 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Path aliases */
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@/*": [
         "./resources/js/*"
@@ -34,11 +34,11 @@
     "resources/js/**/*.d.ts"
   ],
   "references": [
-    // {
-    //   "path": "./tsconfig.node.json"
-    // },
-    // {
-    //   "path": "./tsconfig.app.json"
-    // }
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    }
   ]
 }
