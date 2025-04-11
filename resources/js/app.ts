@@ -1,19 +1,27 @@
-import './assets/main.css'
-// Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import 'jsvectormap/dist/jsvectormap.css'
-import 'flatpickr/dist/flatpickr.css'
+import '../css/app.css';
+import './bootstrap';
 
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import VueApexCharts from 'vue3-apexcharts'
+import { createInertiaApp } from '@inertiajs/vue3';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { createApp, DefineComponent, h } from 'vue';
+import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
-const app = createApp(App)
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-app.use(router)
-app.use(VueApexCharts)
-
-app.mount('#app')
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) =>
+        resolvePageComponent(
+            `./Pages/${name}.vue`,
+            import.meta.glob<DefineComponent>('./Pages/**/*.vue'),
+        ),
+    setup({ el, App, props, plugin }) {
+        createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .use(ZiggyVue)
+            .mount(el);
+    },
+    progress: {
+        color: '#4B5563',
+    },
+});
