@@ -5,8 +5,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import FullScreenLayout from '@/components/layout/FullScreenLayout.vue';
-import CommonGridShape from '@/components/common/CommonGridShape.vue';
+import FullScreenLayout from '@/Components/Layout/FullScreenLayout.vue';
+import CommonGridShape from '@/Components/Common/CommonGridShape.vue';
 
 defineProps<{
     canResetPassword?: boolean;

@@ -19,11 +19,11 @@
         !isExpanded && !isHovered ? 'lg:justify-center' : 'justify-start',
       ]"
     >
-      <router-link to="/">
+      <Link :href="route('dashboard')">
         <img
           v-if="isExpanded || isHovered || isMobileOpen"
           class="dark:hidden"
-          src="/public/storage/images/logo/logo.svg"
+          src="assets/images/logo/logo.svg"
           alt="Logo"
           width="150"
           height="40"
@@ -31,19 +31,19 @@
         <img
           v-if="isExpanded || isHovered || isMobileOpen"
           class="hidden dark:block"
-          src="/public/storage/images/logo/logo-dark.svg"
+          src="assets/images/logo/logo-dark.svg"
           alt="Logo"
           width="150"
           height="40"
         />
         <img
           v-else
-          src="/public/storage/images/logo/logo-icon.svg"
+          src="assets/images/logo/logo-icon.svg"
           alt="Logo"
           width="32"
           height="32"
         />
-      </router-link>
+      </Link>
     </div>
     <div
       class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar"
@@ -107,9 +107,9 @@
                     ]"
                   />
                 </button>
-                <router-link
+                <Link
                   v-else-if="item.path"
-                  :to="item.path"
+                  :href="route(item.path)"
                   :class="[
                     'menu-item group',
                     {
@@ -132,7 +132,7 @@
                     class="menu-item-text"
                     >{{ item.name }}</span
                   >
-                </router-link>
+                </Link>
                 <transition
                   @enter="startTransition"
                   @after-enter="endTransition"
@@ -147,8 +147,8 @@
                   >
                     <ul class="mt-2 space-y-1 ml-9">
                       <li v-for="subItem in item.subItems" :key="subItem.name">
-                        <router-link
-                          :to="subItem.path"
+                        <Link
+                          :href="route(subItem.path)"
                           :class="[
                             'menu-dropdown-item',
                             {
@@ -196,7 +196,7 @@
                               pro
                             </span>
                           </span>
-                        </router-link>
+                        </Link>
                       </li>
                     </ul>
                   </div>
@@ -232,9 +232,10 @@ import {
 } from "../../icons";
 import SidebarWidget from "./SidebarWidget.vue";
 import BoxCubeIcon from "@/icons/BoxCubeIcon.vue";
-import { useSidebar } from "@/composables/useSidebar";
+import { useSidebar } from "@/Composables/useSidebar";
+import { Link } from "@inertiajs/vue3";
 
-const route = useRoute();
+// const route = useRoute();
 
 const { isExpanded, isMobileOpen, isHovered, openSubmenu } = useSidebar();
 
@@ -245,37 +246,37 @@ const menuGroups = [
       {
         icon: GridIcon,
         name: "Dashboard",
-        subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+        subItems: [{ name: "Ecommerce", path: "dashboard", pro: false }],
       },
       {
         icon: CalenderIcon,
         name: "Calendar",
-        path: "/calendar",
+        path: "calendar",
       },
       {
         icon: UserCircleIcon,
         name: "User Profile",
-        path: "/profile",
+        path: "profile",
       },
 
       {
         name: "Forms",
         icon: ListIcon,
         subItems: [
-          { name: "Form Elements", path: "/form-elements", pro: false },
+          { name: "Form Elements", path: "form-elements", pro: false },
         ],
       },
       {
         name: "Tables",
         icon: TableIcon,
-        subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
+        subItems: [{ name: "Basic Tables", path: "basic-tables", pro: false }],
       },
       {
         name: "Pages",
         icon: PageIcon,
         subItems: [
-          { name: "Black Page", path: "/blank", pro: false },
-          { name: "404 Page", path: "/error-404", pro: false },
+          { name: "Black Page", path: "blank", pro: false },
+          { name: "404 Page", path: "error-404", pro: false },
         ],
       },
     ],
@@ -287,36 +288,36 @@ const menuGroups = [
         icon: PieChartIcon,
         name: "Charts",
         subItems: [
-          { name: "Line Chart", path: "/line-chart", pro: false },
-          { name: "Bar Chart", path: "/bar-chart", pro: false },
+          { name: "Line Chart", path: "line-chart", pro: false },
+          { name: "Bar Chart", path: "bar-chart", pro: false },
         ],
       },
-      {
-        icon: BoxCubeIcon,
-        name: "Ui Elements",
-        subItems: [
-          { name: "Alerts", path: "/alerts", pro: false },
-          { name: "Avatars", path: "/avatars", pro: false },
-          { name: "Badge", path: "/badge", pro: false },
-          { name: "Buttons", path: "/buttons", pro: false },
-          { name: "Images", path: "/images", pro: false },
-          { name: "Videos", path: "/videos", pro: false },
-        ],
-      },
-      {
-        icon: PlugInIcon,
-        name: "Authentication",
-        subItems: [
-          { name: "Signin", path: "/signin", pro: false },
-          { name: "Signup", path: "/signup", pro: false },
-        ],
-      },
+      // {
+      //   icon: BoxCubeIcon,
+      //   name: "Ui Elements",
+      //   subItems: [
+      //     { name: "Alerts", path: "alerts", pro: false },
+      //     { name: "Avatars", path: "avatars", pro: false },
+      //     { name: "Badge", path: "badge", pro: false },
+      //     { name: "Buttons", path: "buttons", pro: false },
+      //     { name: "Images", path: "images", pro: false },
+      //     { name: "Videos", path: "videos", pro: false },
+      //   ],
+      // },
+      // {
+      //   icon: PlugInIcon,
+      //   name: "Authentication",
+      //   subItems: [
+      //     { name: "Signin", path: "signin", pro: false },
+      //     { name: "Signup", path: "signup", pro: false },
+      //   ],
+      // },
       // ... Add other menu items here
     ],
   },
 ];
 
-const isActive = (path) => route.path === path;
+const isActive = (path) => path && route.path === path;
 
 const toggleSubmenu = (groupIndex, itemIndex) => {
   const key = `${groupIndex}-${itemIndex}`;
