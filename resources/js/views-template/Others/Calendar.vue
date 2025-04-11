@@ -343,7 +343,7 @@ const renderEventContent = (eventInfo) => {
   const colorClass = `fc-bg-${eventInfo.event.extendedProps.calendar.toLowerCase()}`
   return {
     html: `
-      <div class="event-fc-color flex fc-event-main ${colorClass} p-1 rounded-sm">
+      <div class="event-fc-color flex fc-event-main ${colorClass} p-1 rounded-xs">
         <div class="fc-daygrid-event-dot"></div>
         <div class="fc-event-time">${eventInfo.timeText}</div>
         <div class="fc-event-title">${eventInfo.event.title}</div>
