@@ -8,6 +8,13 @@ import { Head } from '@inertiajs/vue3';
 defineProps<{
     mustVerifyEmail?: boolean;
     status?: string;
+    userData?: Array<{
+        id: number;
+        nip: string;
+        name: string;
+        email: string;
+        position: string;
+    }>
 }>();
 </script>
 
