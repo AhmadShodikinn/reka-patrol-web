@@ -39,6 +39,10 @@ provide('theme', {
   isDarkMode,
   toggleTheme,
 })
+
+// for vue warning
+defineProps(['initialPage', 'initialComponent', 'resolveComponent', 'titleCallback']);
+defineEmits(['headUpdate'])
 </script>
 
 <script lang="ts">
