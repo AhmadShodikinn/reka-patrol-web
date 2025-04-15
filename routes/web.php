@@ -34,58 +34,7 @@ Route::get('/bar-chart', fn() => print('🗿'))->name('bar-chart');
 
 // Routes untuk User dengan Middleware 'auth'
 Route::middleware('auth')->group(function () {
-    Route::get('/users', function () {
-        $users = User::with('position:id,position_name')
-            ->select('id', 'nip', 'name', 'email', 'position_id')
-            ->get()
-            ->map(function ($user) {
-                return [
-                    'id' => $user->id,
-                    'nip' => $user->nip,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'position' => $user->position?->position_name,
-                ];
-            });
-        
-        return Inertia::render('Users', [
-            'userData' => $users, 
-            'test' => 'test',
-        ]);
-    })->name('users');
-
-    Route::get('/users/{id}', function ($id) {
-        $user = User::with('position:id,position_name')
-            ->select('id', 'nip', 'name', 'email', 'position_id')
-            ->findOrFail($id);
-
-        $positions = Position::all();
-        
-        return Inertia::render('UsersEdit', [
-            'user' => [
-                'id' => $user->id,
-                'nip' => $user->nip,
-                'name' => $user->name,
-                'email' => $user->email,
-                'position_id' => $user->position_id,
-            ],
-            'positions' => $positions, 
-        ]);
-    })->name('users.show');
-
-    Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
-
-    Route::get('/createUsers', function () {
-        $positions = Position::all();
-
-        return Inertia::render('UsersCreate', [
-            'positions' => $positions, 
-        ]);
-    })->name('users.create');
-
-    Route::post('/users', [UsersController::class, 'store'])->name('users.store');
-
-    Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
+    Route::resource('users', UsersController::class);
 
     // Routes untuk Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

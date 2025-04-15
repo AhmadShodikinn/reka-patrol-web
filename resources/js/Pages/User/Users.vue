@@ -3,11 +3,11 @@ import { Head, usePage, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const goToDetail = (id: number) => {
-  router.get(`/users/${id}`);
+  router.get(`/users/${id}/edit`);
 };
 
 const addUser = () => {
-  router.get('/createUsers');
+  router.get('/users/create');
 }
 
 const deleteUser = (id: number) => {
@@ -22,7 +22,10 @@ const users = props.userData as Array<{
   nip: string;
   name: string;
   email: string;
-  position: string | null;
+  position: {
+    id: number;
+    position_name: string;
+  } | null;
 }>;
 </script>
 
@@ -77,7 +80,7 @@ const users = props.userData as Array<{
                 <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ user.nip }}</td>
                 <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ user.name }}</td>
                 <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ user.email }}</td>
-                <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ user.position ?? '-' }}</td>
+                <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ user.position?.position_name ?? '-' }}</td>
                 <td class="px-5 py-4 sm:px-6">
                     <div class="flex space-x-2">
                     <button

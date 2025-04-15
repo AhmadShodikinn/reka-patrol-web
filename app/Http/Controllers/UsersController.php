@@ -2,12 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Position;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class UsersController extends Controller
 {
+    public function index()
+    {
+        $users = User::with(['position'])->get();
+
+        return Inertia::render('User/Users', [
+            'userData' => $users,
+        ]);
+    }
+    public function show(User $user)
+    {
+        return Inertia::render('User/UsersShow', [
+            'user' => $user->load('position'),
+        ]);
+    }
+
+    public function create()
+    {
+        return Inertia::render('User/UsersCreate', [
+            'positions' => Position::all(),
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -22,10 +46,20 @@ class UsersController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'position_id' => $request->position_id,
-            'password' => 'password', //default gan 🗿
+            'password' => 'password', //default gan 🗿 // 🙇🏽‍♂️ \\
         ]);
 
         return redirect()->route('users')->with('success', 'Pengguna berhasil ditambahkan!');
+    }
+
+    public function edit(User $user)
+    {
+        $positions = Position::all();
+
+        return Inertia::render('User/UsersEdit', [
+            'user' => $user->load('position'),
+            'positions' => $positions,
+        ]);
     }
     
     public function update(Request $request, $id)
