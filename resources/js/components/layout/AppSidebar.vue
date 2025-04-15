@@ -23,7 +23,7 @@
         <img
           v-if="isExpanded || isHovered || isMobileOpen"
           class="dark:hidden"
-          src="assets/images/logo/logo.svg"
+          src="/assets/images/logo/logo.svg"
           alt="Logo"
           width="150"
           height="40"
@@ -31,14 +31,14 @@
         <img
           v-if="isExpanded || isHovered || isMobileOpen"
           class="hidden dark:block"
-          src="assets/images/logo/logo-dark.svg"
+          src="/assets/images/logo/logo-dark.svg"
           alt="Logo"
           width="150"
           height="40"
         />
         <img
           v-else
-          src="assets/images/logo/logo-icon.svg"
+          src="/assets/images/logo/logo-icon.svg"
           alt="Logo"
           width="32"
           height="32"
@@ -261,7 +261,7 @@ const menuGroups = [
       {
         icon: UserCircleIcon,
         name: "Manajemen Pengguna",
-        path: "users",
+        path: "users.index",
       },
       {
         icon: PageIcon,

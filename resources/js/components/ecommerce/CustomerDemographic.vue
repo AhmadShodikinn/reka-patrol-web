@@ -25,7 +25,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
           <div class="items-center w-full rounded-full max-w-8">
-            <img src="assets/images/country/country-01.svg" alt="usa" />
+            <img src="/assets/images/country/country-01.svg" alt="usa" />
           </div>
           <div>
             <p class="font-semibold text-gray-800 text-theme-sm dark:text-white/90">USA</p>
@@ -48,7 +48,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
           <div class="items-center w-full rounded-full max-w-8">
-            <img src="assets/images/country/country-02.svg" alt="france" />
+            <img src="/assets/images/country/country-02.svg" alt="france" />
           </div>
           <div>
             <p class="font-semibold text-gray-800 text-theme-sm dark:text-white/90">France</p>
