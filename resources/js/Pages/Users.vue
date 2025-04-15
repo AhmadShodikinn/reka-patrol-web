@@ -1,6 +1,14 @@
 <script setup lang="ts">
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, usePage, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+
+const goToDetail = (id: number) => {
+  router.get(`/users/${id}`);
+};
+
+const addUser = () => {
+  router.get('/createUsers');
+}
 
 const { props } = usePage();
 const users = props.userData as Array<{
@@ -23,6 +31,7 @@ const users = props.userData as Array<{
         <button
           type="button"
           class="rounded-md bg-blue-500 text-white px-3.5 py-2.5 text-sm font-semibold shadow-xs hover:bg-blue-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          @click="addUser()"
         >
           Tambah Pengguna
         </button>
@@ -65,7 +74,12 @@ const users = props.userData as Array<{
                 <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ user.position ?? '-' }}</td>
                 <td class="px-5 py-4 sm:px-6">
                     <div class="flex space-x-2">
-                    <button class="text-blue-600 dark:text-blue-400 hover:underline">Edit</button>
+                    <button
+                      class="text-blue-600 dark:text-blue-400 hover:underline"
+                      @click="goToDetail(user.id)"
+                    >
+                      Edit
+                    </button>
                     <button class="text-red-600 dark:text-red-400 hover:underline">Hapus</button>
                     </div>
                 </td>
