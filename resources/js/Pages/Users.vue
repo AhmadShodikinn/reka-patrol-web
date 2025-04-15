@@ -10,6 +10,12 @@ const addUser = () => {
   router.get('/createUsers');
 }
 
+const deleteUser = (id: number) => {
+  if (confirm('Apakah Anda yakin ingin menghapus pengguna ini?')) {
+    router.delete(`/users/${id}`);
+  }
+}
+
 const { props } = usePage();
 const users = props.userData as Array<{
   id: number;
@@ -80,7 +86,10 @@ const users = props.userData as Array<{
                     >
                       Edit
                     </button>
-                    <button class="text-red-600 dark:text-red-400 hover:underline">Hapus</button>
+                    <button 
+                      class="text-red-600 dark:text-red-400 hover:underline"
+                      @click="deleteUser(user.id)"
+                    >Hapus</button>
                     </div>
                 </td>
                 </tr>
