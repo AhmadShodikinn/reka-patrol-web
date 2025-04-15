@@ -14,20 +14,20 @@ class UsersController extends Controller
     {
         $users = User::with(['position'])->get();
 
-        return Inertia::render('User/Users', [
+        return Inertia::render('User/Index', [
             'userData' => $users,
         ]);
     }
     public function show(User $user)
     {
-        return Inertia::render('User/UsersShow', [
+        return Inertia::render('User/Show', [
             'user' => $user->load('position'),
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('User/UsersCreate', [
+        return Inertia::render('User/Create', [
             'positions' => Position::all(),
         ]);
     }
@@ -49,14 +49,14 @@ class UsersController extends Controller
             'password' => 'password', //default gan 🗿 // 🙇🏽‍♂️ \\
         ]);
 
-        return redirect()->route('users')->with('success', 'Pengguna berhasil ditambahkan!');
+        return redirect()->route('users.index')->with('success', 'Pengguna berhasil ditambahkan!');
     }
 
     public function edit(User $user)
     {
         $positions = Position::all();
 
-        return Inertia::render('User/UsersEdit', [
+        return Inertia::render('User/Edit', [
             'user' => $user->load('position'),
             'positions' => $positions,
         ]);
@@ -77,7 +77,7 @@ class UsersController extends Controller
             'position_id' => $request->position_id,
         ]);
 
-        return redirect()->route('users')->with('success', 'Data berhasil diperbarui!');
+        return redirect()->route('users.index')->with('success', 'Data berhasil diperbarui!');
     }
 
     public function destroy($id)
@@ -85,6 +85,6 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('users')->with('success', 'Pengguna berhasil dihapus!');
+        return redirect()->route('users.index')->with('success', 'Pengguna berhasil dihapus!');
     }
 }
