@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class UsersController extends Controller
@@ -32,15 +34,8 @@ class UsersController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'nip' => ['required', 'string', 'unique:users,nip'],
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'position_id' => ['nullable', 'exists:positions,id'],
-        ]);
-
         User::create([
             'nip' => $request->nip,
             'name' => $request->name,
@@ -49,7 +44,7 @@ class UsersController extends Controller
             'password' => 'password', //default gan 🗿 // 🙇🏽‍♂️ \\
         ]);
 
-        return redirect()->route('users.index')->with('success', 'Pengguna berhasil ditambahkan!');
+        return Redirect::route('users.index')->with('success', 'Pengguna berhasil ditambahkan!');
     }
 
     public function edit(User $user)
@@ -62,22 +57,12 @@ class UsersController extends Controller
         ]);
     }
     
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $request->validate([
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email', Rule::unique('users')->ignore($id)],
-            'position_id' => ['nullable', 'exists:positions,id'],
-        ]);
+        logger($request->validated());
+        $user->update($request->validated());
 
-        $user = User::findOrFail($id);
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'position_id' => $request->position_id,
-        ]);
-
-        return redirect()->route('users.index')->with('success', 'Data berhasil diperbarui!');
+        return Redirect::route('users.index')->with('success', 'Data berhasil diperbarui!');
     }
 
     public function destroy($id)

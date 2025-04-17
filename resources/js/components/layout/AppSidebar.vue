@@ -20,25 +20,18 @@
       ]"
     >
       <Link :href="route('dashboard')">
-        <img
-          v-if="isExpanded || isHovered || isMobileOpen"
-          class="dark:hidden"
-          src="/assets/images/logo/logo.svg"
-          alt="Logo"
-          width="150"
-          height="40"
-        />
-        <img
-          v-if="isExpanded || isHovered || isMobileOpen"
-          class="hidden dark:block"
-          src="/assets/images/logo/logo-dark.svg"
-          alt="Logo"
-          width="150"
-          height="40"
-        />
+        <div class="flex items-center mb-4 max-w-xs" v-if="isExpanded || isHovered || isMobileOpen">
+          <Link :href="route('welcome')" class="mr-4">
+            <img src="/images/logo/Asset 2@3x.png" alt="Logo" />
+            <!-- rapaham nyilikno piye🗿 -->
+          </Link>
+          <Link :href="route('welcome')" class="block">
+            <img src="/images/logo/logos.png" alt="Logo" />
+          </Link>
+        </div>
         <img
           v-else
-          src="/assets/images/logo/logo-icon.svg"
+          src="/images/logo/Asset 2@3x.png"
           alt="Logo"
           width="32"
           height="32"
