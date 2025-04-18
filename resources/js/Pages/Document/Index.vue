@@ -116,9 +116,9 @@ const deleteDocument = async (id: number) => {
                 <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ doc.updated_at }}</td>
                 <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">
                   <div class="flex space-x-4">
-                    <button class="text-blue-600 hover:underline dark:text-blue-400">
+                    <a :href="`/storage/${doc.file_path}`" target="_blank" class="text-blue-600 hover:underline dark:text-blue-400">
                       Lihat
-                    </button>
+                    </a>
                     <button class="text-red-600 hover:underline dark:text-red-400" @click="deleteDocument(doc.id)">
                       Hapus
                     </button>
