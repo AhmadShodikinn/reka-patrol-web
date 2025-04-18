@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\JSAController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsersController;
@@ -9,18 +10,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('welcome');
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::redirect('/', 'dashboard')->name('welcome');
 
 // tes🗿
 Route::get('/calendar', fn() => print('🗿'))->name('calendar');
@@ -35,10 +25,14 @@ Route::get('/bar-chart', fn() => print('🗿'))->name('bar-chart');
 
 // Routes untuk User dengan Middleware 'auth'
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
     Route::resource('users', UsersController::class);
     // Route::resource('JSA', JSAController::class);
 
-    Route::get('/document', [JSAController::class, 'index'])->name('jsa.index');
+    Route::resource('/documents', DocumentController::class);
 
     // Routes untuk Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
