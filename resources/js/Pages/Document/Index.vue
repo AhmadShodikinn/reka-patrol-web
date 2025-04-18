@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import { Head, router, usePage } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref } from 'vue';
 import Dropzone from '@/Components/forms/FormElements/Dropzone.vue';
+import Alert from '@/Components/UI/Alert.vue';
 
 const file = ref<File | null>(null);
-
-// Mock data dokumen
-// const documents = ref([
-//   { id: 1, filename: 'SJA CUTTING.pdf', uploaded_at: '2025-04-01 09:30' },
-//   { id: 2, filename: 'SJA WIRRING.docx', uploaded_at: '2025-04-10 14:22' },
-// ]);
+const showAlert = ref(false);
+const alertMessage = ref('');
 
 const { props } = usePage();
 const documents = props.documents as Array<{
@@ -34,20 +31,23 @@ const handleFileUpload = async (file: File) => {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
-  })
-  .then((response) => {
-    router.visit(route('documents.index'));
+  }).then(() => {
+    showAlert.value = true;
+    alertMessage.value = 'Dokumen berhasil diupload. Tunggu sebentar...';
+    setTimeout(() => {
+      showAlert.value = false;
+      alertMessage.value = '';
+      router.visit(route('documents.index'));
+    }, 1500);
   })
 };
 
-const deleteDocument = (id: number) => {
+const deleteDocument = async (id: number) => {
   if (confirm('Apakah Anda yakin ingin menghapus dokumen ini?')) {
-    router.delete(`/documents/${id}`);
-    router.visit('/documents');
+    await window.axios.delete(route('documents.destroy', id));
+    router.visit(route('documents.index'));
   }
 };
-
-
 </script>
 
 
@@ -63,8 +63,10 @@ const deleteDocument = (id: number) => {
           Upload Dokumen
         </h2>
       </div>
+      <Alert v-if="showAlert" variant="success" title="Upload Berhasil" :message="alertMessage"></Alert>
 
-      <Dropzone :upload-url="route('documents.store')" :accepted-files="'.pdf,.doc,.docx'" :handle-file-upload="handleFileUpload">
+      <Dropzone :upload-url="route('documents.store')" :accepted-files="'.pdf,.doc,.docx'"
+        :handle-file-upload="handleFileUpload">
         <template #title>
           Klik untuk memilih dokumen yang ingin diupload
         </template>
@@ -77,7 +79,7 @@ const deleteDocument = (id: number) => {
       </Dropzone>
 
       <!-- Header tables -->
-      <div class="mb-6">
+      <div class="mb-6 mt-6">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-white">
           Daftar Dokumen
         </h2>
