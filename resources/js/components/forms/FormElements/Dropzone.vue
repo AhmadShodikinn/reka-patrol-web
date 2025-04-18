@@ -3,8 +3,8 @@
     <form
       ref="dropzoneForm"
       :id="dropzoneId"
-      :action="uploadUrl"
-      class="border-gray-300 border-dashed dropzone rounded-xl bg-gray-50 p-7 hover:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:hover:border-brand-500 lg:p-10"
+      :action="isCustomUpload ? null : uploadUrl"
+      class="border-gray-300 border-dashed dropzone rounded-xl bg-gray-50 p-7 hover:border-brand-500 dark:border-gray-700 dark:bg-gray-900 dark:hover:border-brand-500 lg:p-10 flex items-center justify-center"
     >
       <div class="dz-message m-0!">
         <div class="mb-[22px] flex justify-center">
@@ -30,16 +30,19 @@
         </div>
 
         <h4 class="mb-3 font-semibold text-gray-800 text-theme-xl dark:text-white/90">
-          Drag & Drop File Here
+          <!-- Klik untuk memilih dokumen yang ingin diupload -->
+          <slot name="title"></slot>
         </h4>
         <span
           class="mx-auto mb-5 block w-full max-w-[290px] text-sm text-gray-700 dark:text-gray-400"
         >
-          Drag and drop your PNG, JPG, WebP, SVG images here or browse
+          <!-- Cari dan pilih dokumen yang ingin diupload -->
+          <slot name="description"></slot>
         </span>
 
         <span class="font-medium underline cursor-pointer text-theme-sm text-brand-500">
-          Browse File
+          <!-- Cari File -->
+          <slot name="button"></slot>
         </span>
       </div>
     </form>
@@ -56,31 +59,51 @@ const props = defineProps({
     type: String,
     default: '/upload',
   },
+  acceptedFiles: {
+    type: String,
+    default: 'image/jpeg,image/png,image/gif,image/webp,image/svg+xml',
+  },
+  handleFileUpload: {
+    type: Function,
+    default: () => {},
+  },
 })
 
 const dropzoneForm = ref(null)
 const dropzoneId = `dropzone-${Math.random().toString(36).substr(2, 9)}`
+const isCustomUpload = !!props.handleFileUpload && props.handleFileUpload.length > 0
 let dropzoneInstance = null
 
 onMounted(() => {
+  const formElement = document.querySelector(`#${dropzoneId}`)
+  if (formElement && isCustomUpload) {
+    formElement.addEventListener('submit', (event) => {
+      console.log('Custom upload enabled')
+      event.preventDefault()
+    })
+  }
   Dropzone.autoDiscover = false
 
   dropzoneInstance = new Dropzone(`#${dropzoneId}`, {
     url: props.uploadUrl,
+    // addRemoveLinks: isCustomUpload ? true : false,
+    uploadMultiple: isCustomUpload ? false : true,
+    autoProcessQueue: isCustomUpload ? false : true,
     thumbnailWidth: 150,
-    maxFilesize: 0.5,
-    acceptedFiles: 'image/jpeg,image/png,image/gif,image/webp,image/svg+xml',
-    headers: { 'My-Awesome-Header': 'header value' },
+    acceptedFiles: props.acceptedFiles,
     dictDefaultMessage: '',
     init: function () {
       this.on('addedfile', (file) => {
         console.log('A file has been added', file)
+        if (isCustomUpload) {
+          props.handleFileUpload(file)
+        }
       })
       this.on('success', (file, response) => {
         console.log('File successfully uploaded', file, response)
       })
       this.on('error', (file, error) => {
-        console.error('An error occurred during upload', file, error)
+        !isCustomUpload && console.error('An error occurred during upload', file, error)
       })
     },
   })

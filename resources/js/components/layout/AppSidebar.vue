@@ -259,7 +259,7 @@ const menuGroups = [
       {
         icon: PageIcon,
         name: "Job Safety Analysis",
-        path: "blank",
+        path: "documents.index",
       },
       // {
       //   name: "Forms",
