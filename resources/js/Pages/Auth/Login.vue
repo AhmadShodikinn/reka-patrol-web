@@ -117,7 +117,7 @@ const submit = () => {
                                 </Link>
                             </div>
                             <p class="text-center text-gray-400 dark:text-white/60">
-                                By Pangeran 2025
+                                Sistem Manajemen Efektivitas Patroli TIM K3 di Lingkungan Industri PT.Rekaindo Global Jasa
                             </p>
                         </div>
                     </div>

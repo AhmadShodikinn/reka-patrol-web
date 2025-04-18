@@ -219,6 +219,7 @@ import {
   ChevronDownIcon,
   HorizontalDots,
   PageIcon,
+  LogoutIcon,
   TableIcon,
   ListIcon,
   PlugInIcon,
@@ -234,8 +235,33 @@ const { isExpanded, isMobileOpen, isHovered, openSubmenu } = useSidebar();
 
 const menuGroups = [
   {
-    title: "Menu",
+    title: "Administrasi",
     items: [
+    {
+        icon: UserCircleIcon,
+        name: "Manajemen Pengguna",
+        path: "users.index",
+      },
+      {
+        icon: PageIcon,
+        name: "Job Safety Analysis",
+        path: "documents.index",
+      },
+      ],
+    },
+    {
+    title: "Account",
+    items: [
+    {
+        icon: LogoutIcon,
+        name: "Keluar",
+        path: "users.index", //kurng route e ( ra nemu cik)
+      },
+      ],
+    },
+  ];
+
+
       // {
       //   icon: GridIcon,
       //   name: "Dashboard",
@@ -251,16 +277,6 @@ const menuGroups = [
       //   name: "User Profile",
       //   path: "profile",
       // },
-      {
-        icon: UserCircleIcon,
-        name: "Manajemen Pengguna",
-        path: "users.index",
-      },
-      {
-        icon: PageIcon,
-        name: "Job Safety Analysis",
-        path: "documents.index",
-      },
       // {
       //   name: "Forms",
       //   icon: ListIcon,
@@ -281,8 +297,8 @@ const menuGroups = [
       //     { name: "404 Page", path: "error-404", pro: false },
       //   ],
       // },
-    ],
-  },
+  //   ],
+  // },
   // {
   //   title: "Others",
   //   items: [
@@ -317,7 +333,7 @@ const menuGroups = [
   //     // ... Add other menu items here
   //   ],
   // },
-];
+// ];
 
 const isActive = (path) => path && route.path === path;
 

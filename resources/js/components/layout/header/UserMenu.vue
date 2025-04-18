@@ -4,11 +4,8 @@
       class="flex items-center text-gray-700 dark:text-gray-400"
       @click.prevent="toggleDropdown"
     >
-      <span class="mr-3 overflow-hidden rounded-full h-11 w-11">
-        <img src="/assets/images/user/owner.jpg" alt="User" />
-      </span>
 
-      <span class="block mr-1 font-medium text-theme-sm">Musharof </span>
+      <span class="block mr-1 font-medium text-theme-sm"> Get nama user login </span>
 
       <ChevronDownIcon :class="{ 'rotate-180': dropdownOpen }" />
     </button>
