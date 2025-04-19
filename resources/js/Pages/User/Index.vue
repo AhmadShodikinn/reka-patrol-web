@@ -6,24 +6,35 @@ const addUser = () => {
   router.get('/users/create');
 }
 
-const deleteUser = (id: number) => {
+const deleteUser = async (id: number) => {
   if (confirm('Apakah Anda yakin ingin menghapus pengguna ini?')) {
-    router.delete(`/users/${id}`);
+    await window.axios.delete(route('users.destroy', id));
     router.visit('/users');
   }
 }
 
 const { props } = usePage();
-const users = props.userData as Array<{
-  id: number;
-  nip: string;
-  name: string;
-  email: string;
-  position: {
+const userRes = props.userRes as {
+  data: Array<{
     id: number;
-    position_name: string;
-  } | null;
-}>;
+    nip: string;
+    name: string;
+    email: string;
+    position: {
+      id: number;
+      position_name: string;
+    } | null;
+  }>;
+  from: number;
+  to: number;
+  total: number;
+  per_page: number;
+  current_page: number;
+  next_page_url: string | null;
+  prev_page_url: string | null;
+  links: Array<{ url: string | null; label: string; active: boolean }>;
+};
+
 </script>
 
 <template>
@@ -70,8 +81,8 @@ const users = props.userData as Array<{
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-              <tr v-for="(user, index) in users" :key="user.id">
-                <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ index + 1 }}</td>
+              <tr v-for="(user, index) in userRes.data" :key="user.id">
+                <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ userRes.from + index }}</td>
                 <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ user.nip }}</td>
                 <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ user.name }}</td>
                 <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ user.email }}</td>
@@ -89,6 +100,33 @@ const users = props.userData as Array<{
               </tr>
             </tbody>
           </table>
+          <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 dark:border-gray-700 dark:bg-gray-800 sm:px-6">
+            <div class="flex flex-1 justify-between sm:hidden">
+              <a :href="userRes.prev_page_url ?? '#'" class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+              <a :href="userRes.next_page_url ?? '#'" class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+            </div>
+            <div class="hidden sm:flex sm:flex-1 sm:justify-between items-center">
+              <div>
+                <p class="text-sm text-gray-700 dark:text-gray-400">
+                  Menampilkan
+                  <span class="font-medium">{{ userRes.from ?? 1 }}</span>
+                  sampai
+                  <span class="font-medium">{{ userRes.to ?? 1 }}</span>
+                  dari
+                  <span class="font-medium">{{ userRes.total ?? 1 }}</span>
+                  hasil
+                </p>
+              </div>
+              <div>
+                <ul v-if="userRes.links.length > 3" class="inline-flex -space-x-px rounded-md">
+                  <li v-for="(link, index) in userRes.links" :key="index">
+                    <a v-if="link.url" :href="link.url ?? undefined" :class="{ 'bg-blue-500 text-white': link.active, 'text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 dark:text-gray-400': !link.active }"
+                      class="block px-3 py-2 text-sm font-medium" v-html="link.label"></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
         </div>
       </div>
       <!-- End Table -->

@@ -14,10 +14,10 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $users = User::with(['position'])->get();
+        $users = User::with(['position'])->paginate(15);
 
         return Inertia::render('User/Index', [
-            'userData' => $users,
+            'userRes' => $users,
         ]);
     }
     public function show(User $user)
@@ -65,11 +65,8 @@ class UsersController extends Controller
         return Redirect::route('users.index')->with('success', 'Data berhasil diperbarui!');
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-
-        return redirect()->route('users.index')->with('success', 'Pengguna berhasil dihapus!');
+        return $user->delete();
     }
 }
