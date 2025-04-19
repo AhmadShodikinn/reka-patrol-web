@@ -103,6 +103,7 @@
                 <Link
                   v-else-if="item.path"
                   :href="route(item.path)"
+                  :method="item.method ?? 'get'"
                   :class="[
                     'menu-item group',
                     {
@@ -255,7 +256,8 @@ const menuGroups = [
     {
         icon: LogoutIcon,
         name: "Keluar",
-        path: "users.index", //kurng route e ( ra nemu cik)
+        path: "logout", //kurng route e ( ra nemu cik) // 🗿 \\
+        method: "post",
       },
       ],
     },
