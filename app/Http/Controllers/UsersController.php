@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $users = User::with(['position'])->paginate(15);
+        $users = UserResource::collection(User::with(['position'])->paginate(15));
 
         return Inertia::render('User/Index', [
             'userRes' => $users,
