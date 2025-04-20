@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, usePage, router, Link } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import SearchBar from '@/Components/Layout/header/SearchBar.vue';
 
 const addCriteria = () => {
   router.get('/criterias/create');
@@ -13,7 +14,10 @@ const deleteCriteria = async (id: number) => {
   }
 }
 
-const { props } = usePage();
+const { props, url } = usePage();
+const searchParams = new URLSearchParams(url.split('?')[1]);
+const searchQuery = searchParams.get('search') || '';
+
 const criteriaRes = props.criteriaRes as {
   data: Array<{
     id: number;
@@ -55,6 +59,8 @@ const criteriaRes = props.criteriaRes as {
       <!-- Search & Tambah -->
       <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-white">Manajemen Kriteria</h2>
+        <SearchBar action="/criterias" :method="'GET'" :placeholder="'Cari Kriteria'" :input-value="searchQuery"
+          :on-submit="(e, value) => router.visit(`/criterias${e.target ? `?search=${value}` : ''}`)" />
         <button type="button"
           class="rounded-md bg-blue-500 text-white px-3.5 py-2.5 text-sm font-semibold shadow-xs hover:bg-blue-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           @click="addCriteria()">
