@@ -14,7 +14,6 @@ const deleteUser = async (id: number) => {
 }
 
 const { props } = usePage();
-console.log(props.userRes);
 const userRes = props.userRes as {
   data: Array<{
     id: number;
