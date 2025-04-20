@@ -5,7 +5,7 @@
       @click.prevent="toggleDropdown"
     >
 
-      <span class="block mr-1 font-medium text-theme-sm"> Get nama user login </span>
+      <span class="block mr-1 font-medium text-theme-sm">{{ user.name }}</span>
 
       <ChevronDownIcon :class="{ 'rotate-180': dropdownOpen }" />
     </button>
@@ -17,10 +17,10 @@
     >
       <div>
         <span class="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-          Musharof Chowdhury
+          {{ user.name }}
         </span>
         <span class="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-          randomuser@pimjo.com
+          {{ user.email }}
         </span>
       </div>
 
@@ -48,7 +48,7 @@
         <LogoutIcon
           class="text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-300"
         />
-        Sign out
+        Keluar
       </Link>
     </div>
     <!-- Dropdown End -->
@@ -57,17 +57,17 @@
 
 <script setup>
 import { UserCircleIcon, ChevronDownIcon, LogoutIcon, SettingsIcon, InfoCircleIcon } from '@/icons'
-import { RouterLink } from 'vue-router'
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
+
+const props = usePage();
+const user = props.props.auth.user;
 
 const dropdownOpen = ref(false)
 const dropdownRef = ref(null)
 
 const menuItems = [
-  { href: 'profile', icon: UserCircleIcon, text: 'Edit profile' },
-  { href: 'chat', icon: SettingsIcon, text: 'Account settings' },
-  { href: 'profile', icon: InfoCircleIcon, text: 'Support' },
+  { href: 'profile.edit', icon: UserCircleIcon, text: 'Edit profil' },
 ]
 
 const toggleDropdown = () => {
