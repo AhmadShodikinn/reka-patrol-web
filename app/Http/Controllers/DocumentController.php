@@ -13,7 +13,7 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        $data = DocumentResource::collection(Document::with(['user'])->paginate(15));
+        $data = DocumentResource::collection(Document::with(['user'])->paginate(10));
         
         return Inertia::render('Document/Index', [
             'documentRes' => $data, // Fetch your JSA data here
@@ -22,8 +22,6 @@ class DocumentController extends Controller
 
     public function store(StoreDocumentRequest $request)
     {
-        logger($request->validated());
-        logger(auth()->user()->id);
         $document = Document::create([
             'user_id' => auth()->user()->id,
             'file_name' => $request->file('file')->getClientOriginalName(),

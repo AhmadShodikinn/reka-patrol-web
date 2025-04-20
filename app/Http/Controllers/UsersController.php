@@ -15,7 +15,7 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $users = UserResource::collection(User::with(['position'])->paginate(15));
+        $users = UserResource::collection(User::with(['position'])->paginate(10));
 
         return Inertia::render('User/Index', [
             'userRes' => $users,
@@ -60,7 +60,6 @@ class UsersController extends Controller
     
     public function update(UpdateUserRequest $request, User $user)
     {
-        logger($request->validated());
         $user->update($request->validated());
 
         return Redirect::route('users.index')->with('success', 'Data berhasil diperbarui!');
