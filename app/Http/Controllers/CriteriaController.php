@@ -7,17 +7,37 @@ use App\Models\Criteria;
 use App\Http\Requests\Criteria\StoreCriteriaRequest;
 use App\Http\Requests\Criteria\UpdateCriteriaRequest;
 use App\Models\Location;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CriteriaController extends Controller
 {
+    private function applyFilters(Builder $query, Request $request) {
+        // Apply filters if provided
+        if ($request->has('search')) {
+            $query->orWhere(function ($query) use ($request) {
+                $query->orWhere('criteria_type', 'like', '%' . $request->search . '%')
+                      ->orWhere('criteria_name', 'like', '%' . $request->search . '%');
+            })->orWhereHas('location', function ($query) use ($request) {
+                $query->where('location_name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        return $query;
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $datas = CriteriaResource::collection(Criteria::with(['location'])->paginate(10));
+        $query = Criteria::with(['location']);
+        $query = $this->applyFilters($query, $request);
+
+        $datas = CriteriaResource::collection($query->paginate(10)->withQueryString());
+
         return Inertia::render('Criteria/Index', [
             'criteriaRes' => $datas,
         ]);
