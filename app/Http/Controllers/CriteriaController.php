@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CriteriaResource;
 use App\Models\Criteria;
 use App\Http\Requests\Criteria\StoreCriteriaRequest;
 use App\Http\Requests\Criteria\UpdateCriteriaRequest;
+use App\Models\Location;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class CriteriaController extends Controller
 {
@@ -13,7 +17,10 @@ class CriteriaController extends Controller
      */
     public function index()
     {
-        //
+        $datas = CriteriaResource::collection(Criteria::with(['location'])->paginate(10));
+        return Inertia::render('Criteria/Index', [
+            'criteriaRes' => $datas,
+        ]);
     }
 
     /**
@@ -21,7 +28,9 @@ class CriteriaController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Criteria/Create', [
+            'locations' => Location::all(),
+        ]);
     }
 
     /**
@@ -29,7 +38,12 @@ class CriteriaController extends Controller
      */
     public function store(StoreCriteriaRequest $request)
     {
-        //
+        logger()->info('Store Criteria', [
+            'request' => $request->all(),
+        ]);
+        Criteria::create($request->validated());
+
+        return Redirect::route('criterias.index')->with('success', 'Kriteria berhasil ditambahkan!');
     }
 
     /**
@@ -45,7 +59,10 @@ class CriteriaController extends Controller
      */
     public function edit(Criteria $criteria)
     {
-        //
+        return Inertia::render('Criteria/Edit', [
+            'criteria' => $criteria->load('location'),
+            'locations' => Location::all(),
+        ]);
     }
 
     /**
@@ -53,7 +70,9 @@ class CriteriaController extends Controller
      */
     public function update(UpdateCriteriaRequest $request, Criteria $criteria)
     {
-        //
+        $criteria->update($request->validated());
+
+        return Redirect::route('criterias.index')->with('success', 'Kriteria berhasil diperbarui!');
     }
 
     /**
@@ -61,6 +80,6 @@ class CriteriaController extends Controller
      */
     public function destroy(Criteria $criteria)
     {
-        //
+        return $criteria->delete();
     }
 }

@@ -192,6 +192,11 @@ const menuGroups = [
         name: "Job Safety Analysis",
         path: "documents.index",
       },
+      {
+        icon: TableIcon,
+        name: "Manajemen Kriteria",
+        path: "criterias.index",
+      }
     ],
   },
   // {

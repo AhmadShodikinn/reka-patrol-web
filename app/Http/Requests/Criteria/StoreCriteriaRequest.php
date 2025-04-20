@@ -11,7 +11,7 @@ class StoreCriteriaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreCriteriaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'criteria_type' => 'required|in:Rapi,Resik,Rawat,Rajin,Ringkas',
+            'criteria_name' => 'required|string|max:255',
+            'location_id' => 'required|exists:locations,id',
         ];
     }
 }

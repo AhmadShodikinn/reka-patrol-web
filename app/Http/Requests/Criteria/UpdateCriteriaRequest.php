@@ -11,7 +11,7 @@ class UpdateCriteriaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateCriteriaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'criteria_type' => 'nullable|in:Rapi,Resik,Rawat,Rajin,Ringkas',
+            'criteria_name' => 'nullable|string|max:255',
+            'location_id' => 'nullable|exists:locations,id',
         ];
     }
 }

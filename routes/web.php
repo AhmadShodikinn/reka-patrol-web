@@ -1,12 +1,9 @@
 <?php
 
+use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\JSAController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsersController;
-use App\Models\Position;
-use App\Models\User;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -30,9 +27,8 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     Route::resource('users', UsersController::class);
-    // Route::resource('JSA', JSAController::class);
-
-    Route::resource('/documents', DocumentController::class);
+    Route::resource('criterias', CriteriaController::class);
+    Route::resource('documents', DocumentController::class);
 
     // Routes untuk Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
