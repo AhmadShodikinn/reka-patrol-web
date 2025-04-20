@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Document\StoreDocumentRequest;
 use App\Http\Requests\Document\UpdateDocumentRequest;
+use App\Http\Resources\DocumentResource;
 use App\Models\Document;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -12,10 +13,10 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        $data = Document::with(['user'])->get();
+        $data = DocumentResource::collection(Document::with(['user'])->paginate(15));
         
         return Inertia::render('Document/Index', [
-            'documents' => $data, // Fetch your JSA data here
+            'documentRes' => $data, // Fetch your JSA data here
         ]);
     }
 

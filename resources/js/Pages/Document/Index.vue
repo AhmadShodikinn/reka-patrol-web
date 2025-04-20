@@ -10,18 +10,38 @@ const showAlert = ref(false);
 const alertMessage = ref('');
 
 const { props } = usePage();
-const documents = props.documents as Array<{
-  id: number;
-  user_id: number;
-  user?: {
+const documentRes = props.documentRes as {
+  data: Array<{
     id: number;
-    name: string;
-  }
-  file_name: string;
-  file_path: string;
-  created_at: string;
-  updated_at: string;
-}>;
+    user_id: number;
+    user?: {
+      id: number;
+      name: string;
+    }
+    file_name: string;
+    file_path: string;
+    created_at: string;
+    updated_at: string;
+  }>;
+  meta: {
+    from: number;
+    to: number;
+    total: number;
+    per_page: number;
+    current_page: number;
+    links: Array<{
+      url: string | null;
+      label: string;
+      active: boolean;
+    }>;
+  };
+  links: {
+    first: string | null;
+    last: string | null;
+    prev: string | null;
+    next: string | null;
+  };
+};
 
 const handleFileUpload = async (file: File) => {
   const data = new FormData();
@@ -109,8 +129,8 @@ const deleteDocument = async (id: number) => {
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-              <tr v-for="(doc, index) in documents" :key="doc.id">
-                <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ index + 1 }}</td>
+              <tr v-for="(doc, index) in documentRes.data" :key="doc.id">
+                <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ documentRes.meta.from + index }}</td>
                 <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ doc.file_name }}</td>
                 <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ doc.user?.name }}</td>
                 <td class="px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">{{ doc.updated_at }}</td>
@@ -125,13 +145,44 @@ const deleteDocument = async (id: number) => {
                   </div>
                 </td>
               </tr>
-              <tr v-if="!(documents?.length > 0)">
+              <tr v-if="!(documentRes.data.length > 0)">
                 <td colspan="4" class="text-center px-5 py-4 sm:px-6 text-sm text-gray-500 dark:text-gray-400">
                   Belum ada dokumen yang diupload.
                 </td>
               </tr>
             </tbody>
           </table>
+          <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 dark:border-gray-700 dark:bg-gray-800 sm:px-6">
+            <div class="flex flex-1 justify-between sm:hidden">
+              <button :disabled="!documentRes.links.prev" @click="router.visit(documentRes.links.prev ?? '#')" class="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                Previous
+              </button>
+              <button :disabled="!documentRes.links.next" @click="router.visit(documentRes.links.next ?? '#')" class="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                Next
+              </button>
+            </div>
+            <div class="hidden sm:flex sm:flex-1 sm:justify-between items-center">
+              <div>
+                <p class="text-sm text-gray-700 dark:text-gray-400">
+                  Menampilkan
+                  <span class="font-medium">{{ documentRes.meta.from ?? 1 }}</span>
+                  sampai
+                  <span class="font-medium">{{ documentRes.meta.to ?? 1 }}</span>
+                  dari
+                  <span class="font-medium">{{ documentRes.meta.total ?? 1 }}</span>
+                  hasil
+                </p>
+              </div>
+              <div>
+                <ul v-if="documentRes.meta.links.length > 3" class="inline-flex -space-x-px rounded-md">
+                  <li v-for="(link, index) in documentRes.meta.links" :key="index">
+                    <button v-if="link.url" @click="router.visit(link.url)" :class="{ 'bg-blue-500 text-white': link.active, 'text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 dark:text-gray-400': !link.active }"
+                      class="block px-3 py-2 text-sm font-medium" v-html="link.label"></button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
         </div>
       </div>
     </div>
