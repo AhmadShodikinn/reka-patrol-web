@@ -60,7 +60,7 @@ const criteriaRes = props.criteriaRes as {
       <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-white">Manajemen Kriteria</h2>
         <SearchBar action="/criterias" :method="'GET'" :placeholder="'Cari Kriteria'" :input-value="searchQuery"
-          :on-submit="(e, value) => router.visit(`/criterias${e.target ? `?search=${value}` : ''}`)" />
+          :on-submit="(e: Event, value: string) => router.visit(`/criterias${e.target ? `?search=${value}` : ''}`)" />
         <button type="button"
           class="rounded-md bg-blue-500 text-white px-3.5 py-2.5 text-sm font-semibold shadow-xs hover:bg-blue-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           @click="addCriteria()">
