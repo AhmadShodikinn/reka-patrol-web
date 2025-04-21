@@ -36,7 +36,7 @@ task('deploy:secrets', function () {
 host('rekapatrol')
     ->set('remote_user', 'rekachain')
     ->setHostname('103.211.26.90')
-    ->set('deploy_path', '/var/www/reka.patrol.com');
+    ->set('deploy_path', '/var/www/rekapatrol.ptrekaindo.co.id');
 
 // Hooks
 
