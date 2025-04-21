@@ -37,7 +37,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import DropdownMenu from '../common/DropdownMenu.vue'
+import DropdownMenu from '@/Components/Common/DropdownMenu.vue'
 const menuItems = [
   { label: 'View More', onClick: () => console.log('View More clicked') },
   { label: 'Delete', onClick: () => console.log('Delete clicked') },

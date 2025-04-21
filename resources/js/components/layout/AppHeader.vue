@@ -87,7 +87,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useSidebar } from '@/Composables/useSidebar'
-import ThemeToggler from '../Common/ThemeToggler.vue'
+import ThemeToggler from '@/Components/Common/ThemeToggler.vue'
 import SearchBar from './header/SearchBar.vue'
 import HeaderLogo from './header/HeaderLogo.vue'
 import NotificationMenu from './header/NotificationMenu.vue'
