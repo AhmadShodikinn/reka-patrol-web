@@ -47,7 +47,7 @@ const handleFileUpload = async (file: File) => {
   const data = new FormData();
   data.append('file', file);
 
-  await window.axios.post(route('documents.store'), data, {
+  await window.axios.post(route('letters.store'), data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -57,7 +57,7 @@ const handleFileUpload = async (file: File) => {
     setTimeout(() => {
       showAlert.value = false;
       alertMessage.value = '';
-      router.visit(route('documents.index'));
+      router.visit(route('letters.index'));
     }, 1500);
   })
 };
@@ -80,12 +80,12 @@ const deleteDocument = async (id: number) => {
       <!-- Header -->
       <div class="mb-6">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-white">
-          Upload Dokumen JSA
+          Upload Dokumen Permenaker
         </h2>
       </div>
       <Alert v-if="showAlert" variant="success" title="Upload Berhasil" :message="alertMessage"></Alert>
 
-      <Dropzone :upload-url="route('documents.store')" :accepted-files="'.pdf,.doc,.docx'"
+      <Dropzone :upload-url="route('letters.store')" :accepted-files="'.pdf,.doc,.docx'"
         :handle-file-upload="handleFileUpload">
         <template #title>
           Klik untuk memilih dokumen yang ingin diupload

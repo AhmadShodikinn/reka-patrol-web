@@ -13,19 +13,24 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        $data = DocumentResource::collection(Document::with(['user'])->paginate(10));
+        $isLetter = request()->routeIs('letters.*');
+     
+        $data = DocumentResource::collection(Document::with(['user'])->whereType($isLetter ? 'permenaker' : 'jsa')->paginate(10));
         
-        return Inertia::render('Document/Index', [
-            'documentRes' => $data, // Fetch your JSA data here
+        return Inertia::render($isLetter ? 'Letter/Index' : 'Document/Index', [
+            'documentRes' => $data,
         ]);
     }
 
     public function store(StoreDocumentRequest $request)
     {
+        $isLetter = request()->routeIs('letters.*');
+
         $document = Document::create([
             'user_id' => auth()->user()->id,
             'file_name' => $request->file('file')->getClientOriginalName(),
-            'file_path' => $request->file('file')->store('documents', 'public'),
+            'file_path' => $request->file('file')->store($isLetter ? 'documents/letter' : 'documents/jsa' , 'public'),
+            'type' => $isLetter ? 'permenaker' : 'jsa',
         ]);
 
         return $document;
@@ -47,6 +52,8 @@ class DocumentController extends Controller
 
     public function update(UpdateDocumentRequest $request, Document $document)
     {
+        $isLetter = request()->routeIs('letters.*');
+
         if ($request->file('file')) {
             if ($document->file_path) {
                 if (Storage::disk('public')->exists($document->file_path)) {
@@ -55,7 +62,7 @@ class DocumentController extends Controller
             }
             $document->update([
                 'file_name' => $request->file('file')->getClientOriginalName(),
-                'file_path' => $request->file('file')->store('documents'),
+                'file_path' => $request->file('file')->store($isLetter ? 'documents/letter' : 'documents/jsa' , 'public'),
             ]);
         } else {
             $document->update([

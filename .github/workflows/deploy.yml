@@ -14,7 +14,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:
-          php-version: '8.4'
+          php-version: '8.2'
           extensions: mbstring, bcmath
       - name: Composer install
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress
@@ -43,7 +43,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:
-          php-version: '8.4'
+          php-version: '8.2'
           extensions: mbstring, bcmath
       - name: Composer install
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress
@@ -55,4 +55,4 @@ jobs:
       - name: Deploy to Production
         env:
           DOT_ENV: ${{ secrets.DOT_ENV_PRODUCTION }}
-        run: php vendor/bin/dep deploy rekapatrol --branch="deploy" -vv
+        run: php8.2 vendor/bin/dep deploy rekapatrol --branch="deploy" -vv

@@ -166,6 +166,9 @@ import {
   PageIcon,
   LogoutIcon,
   TableIcon,
+  FolderIcon,
+  DraftIcon,
+  MailBox,
   ListIcon,
   PlugInIcon,
 } from "../../icons";
@@ -188,28 +191,33 @@ const menuGroups = [
         path: "users.index",
       },
       {
+        icon: TableIcon,
+        name: "Manajemen Kriteria",
+        path: "criterias.index",
+      },
+      {
         icon: PageIcon,
         name: "Job Safety Analysis",
         path: "documents.index",
       },
       {
-        icon: TableIcon,
-        name: "Manajemen Kriteria",
-        path: "criterias.index",
-      }
+        icon: ListIcon,
+        name: "Permenaker",
+        path: "letters.index",
+      },
     ],
   },
-  // {
-  //   title: "Account",
-  //   items: [
-  //     {
-  //       icon: LogoutIcon,
-  //       name: "Keluar",
-  //       path: "logout", //kurng route e ( ra nemu cik) // 🗿 \\
-  //       method: "post",
-  //     },
-  //   ],
-  // },
+  {
+    title: "Account",
+    items: [
+      {
+        icon: LogoutIcon,
+        name: "Keluar",
+        path: "logout",
+        method: "post",
+      },
+    ],
+  },
 ];
 
 const isActive = (path) => path && route.path === path;

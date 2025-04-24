@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UsersController::class);
     Route::resource('criterias', CriteriaController::class);
     Route::resource('documents', DocumentController::class);
+    Route::resource('letters', DocumentController::class);
+
 
     // Routes untuk Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

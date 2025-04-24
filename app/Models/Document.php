@@ -11,6 +11,7 @@ class Document extends Model
         'user_id',
         'file_name',
         'file_path',
+        'type',
     ];
 
     public function user(): BelongsTo
