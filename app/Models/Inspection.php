@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Inspection extends Model
 {
@@ -35,8 +36,8 @@ class Inspection extends Model
         return $this->belongsTo(Criteria::class);
     }
 
-    public function findings(): HasMany
+    public function findings(): MorphMany
     {
-        return $this->hasMany(Finding::class);
+        return $this->morphMany(Finding::class, 'findable');
     }
 }
