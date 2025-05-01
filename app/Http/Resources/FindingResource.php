@@ -18,8 +18,7 @@ class FindingResource extends JsonResource
             'id' => $this->id,
             'findable_id' => $this->findable_id,
             'findable_type' => $this->findable_type,
-            'findings_path' => $this->finding_path,
-            'findings_description' => $this->finding_description,
+            'image_path' => $this->image_path,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

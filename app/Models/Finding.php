@@ -10,8 +10,7 @@ class Finding extends Model
     protected $fillable = [
         'findable_id',
         'findable_type',
-        'finding_path',
-        'finding_description',
+        'image_path',
     ];
 
     public function findable(): MorphTo

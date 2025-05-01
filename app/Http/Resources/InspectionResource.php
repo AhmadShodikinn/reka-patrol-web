@@ -23,6 +23,7 @@ class InspectionResource extends JsonResource
             'criteria_id' => $this->criteria_id,
             'criteria' => CriteriaResource::make($this->whenLoaded('criteria')),
             'findings' => FindingResource::collection($this->whenLoaded('findings')),
+            'findings_description' => $this->findings_description,
             'inspection_location' => $this->inspection_location,
             'value' => $this->value,
             'suitability' => $this->suitability,

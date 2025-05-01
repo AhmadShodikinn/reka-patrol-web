@@ -21,6 +21,7 @@ class SafetyPatrolResource extends JsonResource
             'pic_id' => $this->pic_id,
             'pic' => UserResource::make($this->whenLoaded('pic')),
             'findings' => FindingResource::collection($this->whenLoaded('findings')),
+            'findings_description' => $this->findings_description,
             'location' => $this->location,
             'category' => $this->category,
             'risk' => $this->risk,

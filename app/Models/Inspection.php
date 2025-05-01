@@ -12,6 +12,7 @@ class Inspection extends Model
     protected $fillable = [
         'worker_id', 
         'pic_id', 
+        'findings_description',
         'criteria_id',
         'inspection_location', 
         'value', 

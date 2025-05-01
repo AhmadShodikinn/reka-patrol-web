@@ -12,6 +12,7 @@ class SafetyPatrol extends Model
     protected $fillable = [
         'worker_id', 
         'pic_id',
+        'findings_description',
         'location', 
         'category', 
         'risk', 

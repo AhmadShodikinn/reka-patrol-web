@@ -17,8 +17,7 @@ return new class extends Migration
         Schema::create('findings', function (Blueprint $table) {
             $table->id();
             $table->morphs('findable');
-            $table->string('finding_path');
-            $table->string('finding_description');
+            $table->string('image_path');
             $table->timestamps();
         });
         
@@ -30,16 +29,14 @@ return new class extends Migration
                 Finding::create([
                     'findable_id' => $safetyPatrol->id,
                     'findable_type' => SafetyPatrol::class,
-                    'finding_path' => $safetyPatrol->findings_path,
-                    'finding_description' => $safetyPatrol->findings_description,
+                    'image_path' => $safetyPatrol->findings_path,
                 ]);
             });
             Inspection::get()->each(function ($inspection) {
                 Finding::create([
                     'findable_id' => $inspection->id,
                     'findable_type' => Inspection::class,
-                    'finding_path' => $inspection->findings_path,
-                    'finding_description' => $inspection->findings_description,
+                    'image_path' => $inspection->findings_path,
                 ]);
             });
             DB::commit();
@@ -52,10 +49,10 @@ return new class extends Migration
         if ($success) {
             // remove findings_path and findings_description from safety_patrols and inspections
             Schema::table('safety_patrols', function (Blueprint $table) {
-                $table->dropColumn(['findings_path', 'findings_description']);
+                $table->dropColumn(['findings_path']);
             });
             Schema::table('inspections', function (Blueprint $table) {
-                $table->dropColumn(['findings_path', 'findings_description']);
+                $table->dropColumn(['findings_path']);
             });
         }
     }
@@ -65,6 +62,26 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('safety_patrols', function (Blueprint $table) {
+            $table->string('findings_path')->after('pic_id');
+        });
+        Schema::table('inspections', function (Blueprint $table) {
+            $table->string('findings_path')->after('pic_id');
+        });
+
+        Finding::get()->each(function ($finding) {
+            logger($finding);
+            if ($finding->findable_type == SafetyPatrol::class) {
+                $safety = SafetyPatrol::find($finding->findable_id);
+                $safety->findings_path = $finding->image_path;
+                $safety->save();
+            } else if ($finding->findable_type == Inspection::class) {
+                $inspection = Inspection::find($finding->findable_id);
+                $inspection->findings_path = $finding->image_path;
+                $inspection->save();
+            }
+        });
+        
         Schema::dropIfExists('findings');
     }
 };
