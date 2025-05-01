@@ -192,7 +192,7 @@ const menuGroups = [
       },
       {
         icon: TableIcon,
-        name: "Manajemen Kriteria",
+        name: "Manajemen Kriteria 5R",
         path: "criterias.index",
       },
       {
@@ -202,7 +202,7 @@ const menuGroups = [
       },
       {
         icon: ListIcon,
-        name: "Permenaker",
+        name: "Peraturan-peraturan K3",
         path: "letters.index",
       },
     ],
