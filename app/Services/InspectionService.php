@@ -4,13 +4,14 @@ namespace App\Services;
 
 use App\Models\Inspection;
 use App\Traits\HandleImage;
+use Illuminate\Support\Arr;
 
 class InspectionService
 {
     use HandleImage;
 
     public function handleInspectionImageUpload(array $data, Inspection $inspection = null): array {
-        $data = $this->handleImageUpload(data: $data, keyOrModel: $inspection, imageField: 'findings_path', customPath: 'inspection/findings');
+        $data = $this->handleArrayImageUpload(data: $data, keyOrModel: $inspection, imageField: 'finding_paths', customPath: 'inspection/findings');
         $data = $this->handleImageUpload(data: $data, keyOrModel: $inspection, imageField: 'action_path', customPath: 'inspection/actions');
         return $data;
     }
@@ -20,7 +21,17 @@ class InspectionService
         if (!isset($data['worker_id'])) {
             $data['worker_id'] = auth()->id();
         }
-        return Inspection::create($data);
+        $inspection = Inspection::create(
+            Arr::except($data, ['finding_paths'])
+        );
+        $inspection->findings()->createMany(
+            collect($data['finding_paths'])
+                ->map(fn($path, $key) => [
+                    'image_path' => $path,
+                ])
+                ->toArray()
+        );
+        return $inspection;
     }
 
     public function update(Inspection $inspection, array $data): ?Inspection {
