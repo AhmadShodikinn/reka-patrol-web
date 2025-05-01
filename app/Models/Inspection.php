@@ -4,15 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Inspection extends Model
 {
     protected $fillable = [
         'worker_id', 
         'pic_id', 
-        'criteria_id', 
-        'findings_path', 
-        'findings_description',
+        'criteria_id',
         'inspection_location', 
         'value', 
         'suitability', 
@@ -34,5 +33,10 @@ class Inspection extends Model
     public function criteria(): BelongsTo
     {
         return $this->belongsTo(Criteria::class);
+    }
+
+    public function findings(): HasMany
+    {
+        return $this->hasMany(Finding::class);
     }
 }
