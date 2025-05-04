@@ -24,17 +24,17 @@ trait HandleImage
     }
 
     
-    protected function handleArrayImageUpload(array $data, mixed $keyOrModel = null, string $imageField = 'image_path', string $disk = 'public', ?string $customPath = null): array {
+    protected function handleArrayImageUpload(array $data, mixed $keyOrModel = null, string $imageField = 'image_path', string $relation = null, string $relationImageField = 'image_path', string $disk = 'public', ?string $customPath = null): array {
         if (request()->hasFile($imageField)) {
             // Use custom path if provided; otherwise, default to $this->imagePath
             $path = $customPath ?? $this->imagePath;
 
-            // TODO: Delete old photo if updating
-            // if ($keyOrModel && $keyOrModel->$imageField) {
-            //     foreach ($keyOrModel->$imageField as $imagePath) {
-            //         $this->deleteImage($imagePath, $disk);
-            //     }
-            // }
+            // Delete old photos if updating
+            if ($keyOrModel && $relation && count($keyOrModel->{$relation})) {
+                $keyOrModel->{$relation}->each(function ($item) use ($disk, $relationImageField) {
+                    $this->deleteImage($item->{$relationImageField}, $disk);
+                });
+            }
 
             // Store the new photo
             $images = [];
