@@ -27,7 +27,7 @@ class InspectionSeeder extends Seeder
                 'worker_id' => User::inRandomOrder()->wherePositionId(Position::wherePositionName('5R')->first()->id)->first()->id,
                 'pic_id' => User::inRandomOrder()->wherePositionId(Position::wherePositionName('PIC')->first()->id)->first()->id,
                 'criteria_id' => Criteria::inRandomOrder()->first()->id,
-                'findings_path' => $faker->imageUrl(640, 480, 'nature', true),
+                // 'findings_path' => $faker->imageUrl(640, 480, 'nature', true),
                 'findings_description' => $faker->sentence(10),
                 'inspection_location' => $lokasi,
                 'value' => $nilai,

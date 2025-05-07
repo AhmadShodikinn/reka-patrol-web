@@ -21,7 +21,7 @@ class SafetyPatrolSeeder extends Seeder
         SafetyPatrol::create([
             'worker_id' => $worker->id,
             'pic_id' => $pic->id,
-            'findings_path' => 'path/to/temuan/file1.pdf',
+            // 'findings_path' => 'path/to/temuan/file1.pdf',
             'findings_description' => 'Deskripsi temuan untuk safety patrol pertama.',
             'location' => 'Area Workshop 1',
             'category' => 'UC',  // UC atau CA
@@ -34,7 +34,7 @@ class SafetyPatrolSeeder extends Seeder
         SafetyPatrol::create([
             'worker_id' => $worker->id,
             'pic_id' => $pic->id,
-            'findings_path' => 'path/to/temuan/file2.pdf',
+            // 'findings_path' => 'path/to/temuan/file2.pdf',
             'findings_description' => 'Deskripsi temuan untuk safety patrol kedua.',
             'location' => 'Area Workshop 2',
             'category' => 'CA',  // UC atau CA
@@ -47,7 +47,7 @@ class SafetyPatrolSeeder extends Seeder
         SafetyPatrol::create([
             'worker_id' => $worker->id,
             'pic_id' => $pic->id,
-            'findings_path' => 'path/to/temuan/file3.pdf',
+            // 'findings_path' => 'path/to/temuan/file3.pdf',
             'findings_description' => 'Deskripsi temuan untuk safety patrol ketiga.',
             'location' => 'Area Workshop 3',
             'category' => 'UC',  // UC atau CA
