@@ -14,7 +14,14 @@ class ApiCriteriaController extends Controller
      */
     public function index()
     {
-        return CriteriaResource::collection(Criteria::with(request('relations') ?? [])->paginate(request('per_page', 10)));
+        $criterias = Criteria::with(request('relations') ?? []);
+        if (request()->has('criteria_type')) {
+            $criterias = $criterias->where('criteria_type', request('criteria_type'));
+        }
+        if (request()->has('search')) {
+            $criterias = $criterias->where('criteria_name', 'like', '%' . request('search') . '%');
+        }
+        return CriteriaResource::collection($criterias->paginate(request('per_page', 10)));
     }
 
     /**
