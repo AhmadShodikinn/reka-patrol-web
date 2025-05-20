@@ -18,6 +18,9 @@ class ApiCriteriaController extends Controller
         if (request()->has('criteria_type')) {
             $criterias = $criterias->where('criteria_type', request('criteria_type'));
         }
+        if (request()->has('location_id')) {
+            $criterias = $criterias->where('location_id', request('location_id'));
+        }
         if (request()->has('search')) {
             $criterias = $criterias->where('criteria_name', 'like', '%' . request('search') . '%');
         }
