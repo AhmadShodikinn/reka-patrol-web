@@ -20,6 +20,7 @@ class DocumentResource extends JsonResource
             'user' => UserResource::make($this->whenLoaded('user')),
             'file_name' => $this->file_name,
             'file_path' => $this->file_path,
+            'file_url' => $this->file_url,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];
