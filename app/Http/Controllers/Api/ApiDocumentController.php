@@ -35,6 +35,9 @@ class ApiDocumentController extends Controller
      */
     public function show(Document $document)
     {
+        if (request()->has('download') && request('download')) {
+            return response()->download(public_path('storage/' . $document->file_path));
+        }
         return DocumentResource::make($document->load(['user']));
     }
 
