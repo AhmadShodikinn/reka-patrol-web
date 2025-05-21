@@ -11,7 +11,7 @@ class StoreSafetyPatrolRecapRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreSafetyPatrolRecapRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'number' => ['required', 'string'],
+            'issued_date' => ['nullable', 'date'],
+            'from_date' => ['required', 'date'],
+            'to_date' => ['required', 'date'],
+            'description' => ['required', 'string'],
         ];
     }
 }
