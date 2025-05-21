@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\SafetyPatrolExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SafetyPatrolRecap\StoreSafetyPatrolRecapRequest;
 use App\Http\Resources\SafetyPatrolRecapResource;
 use App\Models\SafetyPatrolRecap;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ApiSafetyPatrolRecapController extends Controller
 {
@@ -25,7 +27,13 @@ class ApiSafetyPatrolRecapController extends Controller
     {
         $data = $request->validated();
         if (!$request->has('issued_date')) $data['issued_date'] = now();
-        return SafetyPatrolRecapResource::make(SafetyPatrolRecap::create($data));
+
+        $safetyPatrolRecap = SafetyPatrolRecap::create($data);
+
+        if ($request->has('download') && $request->get('download')) {
+            return Excel::download(new SafetyPatrolExport($safetyPatrolRecap->from_date, $safetyPatrolRecap->to_date), 'safety_patrol_recap.xlsx');
+        }
+        return SafetyPatrolRecapResource::make($safetyPatrolRecap);
     }
 
     /**
@@ -33,6 +41,9 @@ class ApiSafetyPatrolRecapController extends Controller
      */
     public function show(SafetyPatrolRecap $safetyPatrolRecap)
     {
+        if (request()->has('download') && request('download')) {
+            return Excel::download(new SafetyPatrolExport($safetyPatrolRecap->from_date, $safetyPatrolRecap->to_date), 'safety_patrol_recap.xlsx');
+        }
         return SafetyPatrolRecapResource::make($safetyPatrolRecap);
     }
 
