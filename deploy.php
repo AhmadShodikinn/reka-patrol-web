@@ -6,6 +6,9 @@ require 'contrib/npm.php';
 require 'contrib/rsync.php';
 
 // Config
+set('bin/php', function () {
+    return 'php8.2';
+});
 
 set('repository', 'https://github.com/AhmadShodikinn/reka-patrol-web.git');
 set('keep_releases', 3);
