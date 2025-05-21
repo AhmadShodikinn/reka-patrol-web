@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\ApiCriteriaController;
+use App\Http\Controllers\Api\ApiDashboardController;
 use App\Http\Controllers\Api\ApiDocumentController;
 use App\Http\Controllers\Api\ApiInspectionController;
 use App\Http\Controllers\Api\ApiSafetyPatrolController;
@@ -20,5 +21,6 @@ Route::group(['as' => 'api.'], function () {
         Route::resource('safety-patrols', ApiSafetyPatrolController::class);
         Route::resource('safety-patrol-recaps', ApiSafetyPatrolRecapController::class);
         Route::resource('documents', ApiDocumentController::class);
+        Route::resource('dashboards', ApiDashboardController::class);
     });
 });
