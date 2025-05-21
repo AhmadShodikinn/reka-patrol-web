@@ -20,6 +20,5 @@ Route::group(['as' => 'api.'], function () {
         Route::resource('safety-patrols', ApiSafetyPatrolController::class);
         Route::resource('safety-patrol-recaps', ApiSafetyPatrolRecapController::class);
         Route::resource('documents', ApiDocumentController::class);
-        Route::resource('letters', ApiDocumentController::class)->parameters(['letters' => 'document']);
     });
 });

@@ -14,8 +14,10 @@ class ApiDocumentController extends Controller
      */
     public function index()
     {
-        $isLetter = request()->routeIs('letters.*');
-        $documents = Document::with(request('relations', []))->whereType($isLetter ? 'permenaker' : 'jsa');
+        $documents = Document::with(request('relations', []));
+        if (request()->has('document_type')) {
+            $documents = $documents->whereType(request('document_type'));
+        }
         if (request()->has('search')) {
             $documents = $documents->where('file_name', 'like', '%' . request('search') . '%');
         }

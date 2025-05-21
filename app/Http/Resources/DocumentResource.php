@@ -21,6 +21,7 @@ class DocumentResource extends JsonResource
             'file_name' => $this->file_name,
             'file_path' => $this->file_path,
             'file_url' => $this->file_url,
+            'type' => $this->type,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];
