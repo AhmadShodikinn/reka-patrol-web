@@ -22,7 +22,7 @@ class StoreSafetyPatrolRecapRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'number' => ['required', 'string'],
+            'number' => ['nullable', 'string'],
             'issued_date' => ['nullable', 'date'],
             'from_date' => ['required', 'date'],
             'to_date' => ['required', 'date'],
