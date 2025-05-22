@@ -31,7 +31,7 @@ class ApiSafetyPatrolRecapController extends Controller
         $safetyPatrolRecap = SafetyPatrolRecap::create($data);
 
         if ($request->has('download') && $request->get('download')) {
-            return Excel::download(new SafetyPatrolExport($safetyPatrolRecap->from_date, $safetyPatrolRecap->to_date), 'safety_patrol_recap.xlsx');
+            return Excel::download(new SafetyPatrolExport($safetyPatrolRecap), 'safety_patrol_recap.xlsx');
         }
         return SafetyPatrolRecapResource::make($safetyPatrolRecap);
     }
@@ -42,7 +42,7 @@ class ApiSafetyPatrolRecapController extends Controller
     public function show(SafetyPatrolRecap $safetyPatrolRecap)
     {
         if (request()->has('download') && request('download')) {
-            return Excel::download(new SafetyPatrolExport($safetyPatrolRecap->from_date, $safetyPatrolRecap->to_date), 'safety_patrol_recap.xlsx');
+            return Excel::download(new SafetyPatrolExport($safetyPatrolRecap), 'safety_patrol_recap.xlsx');
         }
         return SafetyPatrolRecapResource::make($safetyPatrolRecap);
     }
