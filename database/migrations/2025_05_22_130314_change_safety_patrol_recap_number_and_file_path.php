@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('safety_patrol_recaps', function (Blueprint $table) {
             $table->string('number')->nullable()->change();
+            $table->string('description')->nullable()->change();
             $table->string('file_path')->nullable()->after('description');
         });
     }
@@ -24,6 +25,7 @@ return new class extends Migration
     {
         Schema::table('safety_patrol_recaps', function (Blueprint $table) {
             $table->string('number')->change();
+            $table->string('description')->change();
             $table->dropColumn('file_path');
         });
     }

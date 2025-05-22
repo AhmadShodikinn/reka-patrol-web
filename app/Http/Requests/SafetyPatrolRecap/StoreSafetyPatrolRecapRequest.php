@@ -26,7 +26,7 @@ class StoreSafetyPatrolRecapRequest extends FormRequest
             'issued_date' => ['nullable', 'date'],
             'from_date' => ['required', 'date'],
             'to_date' => ['required', 'date'],
-            'description' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
         ];
     }
 }
