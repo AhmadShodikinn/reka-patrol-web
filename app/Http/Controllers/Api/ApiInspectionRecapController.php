@@ -40,9 +40,9 @@ class ApiInspectionRecapController extends Controller
      */
     public function show(InspectionRecap $inspectionRecap)
     {
-        // if (request()->has('download') && request()->get('download')) {
-        //     return Excel::download(new InspectionExport($inspectionRecap), 'inspection_recap.xlsx');
-        // }
+        if (request()->has('download') && request()->get('download')) {
+            return Excel::download(new InspectionExport($inspectionRecap), 'inspection_recap.xlsx');
+        }
         return InspectionRecapResource::make($inspectionRecap);
     }
 }
