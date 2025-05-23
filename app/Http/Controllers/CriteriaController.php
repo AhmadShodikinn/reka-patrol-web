@@ -58,9 +58,6 @@ class CriteriaController extends Controller
      */
     public function store(StoreCriteriaRequest $request)
     {
-        logger()->info('Store Criteria', [
-            'request' => $request->all(),
-        ]);
         Criteria::create($request->validated());
 
         return Redirect::route('criterias.index')->with('success', 'Kriteria berhasil ditambahkan!');
