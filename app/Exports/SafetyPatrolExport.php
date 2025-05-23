@@ -79,35 +79,24 @@ class SafetyPatrolExport implements FromCollection, WithHeadings, WithDrawings, 
         $drActions = [];
 
         foreach ($this->safetyPatrols as $index => $safetyPatrol) {
-            // foreach ($safetyPatrol->findings as $findingIndex => $finding) {
-            //     # code...
-            //     $imageUrl = public_path('storage/' . $finding->image_path);
-            //     // $imageUrl = public_path('/images/logo/Asset 2@3x.png');
+            $findingWidth = 0;
+            foreach ($safetyPatrol->findings as $finding) {
+                # code...
+                $imageUrl = public_path('storage/' . $finding->image_path);
+                // $imageUrl = public_path('/images/logo/Asset 2@3x.png');
 
-            //     $drFinding = new Drawing();
-            //     $drFinding->setName('Image');
-            //     $drFinding->setDescription('Image');
-            //     $drFinding->setPath($imageUrl);
-            //     $drFinding->setHeight(50);
-            //     $drFinding->setCoordinates('B' . ($findingIndex + 6)); // Assuming the image should be in column B
-            //     $drFinding->setOffsetX(50*$findingIndex + 5);
-            //     $drFinding->setOffsetY(5);
+                $drFinding = new Drawing();
+                $drFinding->setName('Image');
+                $drFinding->setDescription('Image');
+                $drFinding->setPath($imageUrl);
+                $drFinding->setHeight(50);
+                $drFinding->setCoordinates('B' . ($index + 6)); // Assuming the image should be in column B
+                $drFinding->setOffsetX($findingWidth + 5);
+                $drFinding->setOffsetY(5);
 
-            //     $drFindings[] = $drFinding;
-            // }
-            $imageUrl = public_path('storage/' . $safetyPatrol->findings()->first()->image_path);
-            // $imageUrl = public_path('/images/logo/Asset 2@3x.png');
-
-            $drFinding = new Drawing();
-            $drFinding->setName('Image');
-            $drFinding->setDescription('Image');
-            $drFinding->setPath($imageUrl);
-            $drFinding->setHeight(50);
-            $drFinding->setCoordinates('B' . ($index + 6)); // Assuming the image should be in column B
-            $drFinding->setOffsetX(5);
-            $drFinding->setOffsetY(5);
-
-            $drFindings[] = $drFinding;
+                $findingWidth += $drFinding->getWidth();
+                $drFindings[] = $drFinding;
+            }
             
             $imageUrl = public_path('storage/' . $safetyPatrol->action_path);
             // $imageUrl = public_path('/images/logo/Asset 2@3x.png');
