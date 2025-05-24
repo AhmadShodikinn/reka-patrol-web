@@ -27,12 +27,17 @@ class ApiInspectionRecapController extends Controller
         $data = $request->validated();
         if (!$request->has('issued_date')) $data['issued_date'] = now();
 
-        $safetyPatrolRecap = InspectionRecap::create($data);
+        $inspectionRecap = InspectionRecap::create($data);
 
-        // if ($request->has('download') && $request->get('download')) {
-        //     return Excel::download(new SafetyPatrolExport($safetyPatrolRecap), 'safety_patrol_recap.xlsx');
-        // }
-        return InspectionRecapResource::make($safetyPatrolRecap);
+        $inspectionRecap->file_path = 'inspection-recap/' . $inspectionRecap->id . '_' . $inspectionRecap->from_date . '_' . $inspectionRecap->to_date . '.xlsx';
+        $inspectionRecap->save(); 
+
+        Excel::store(new InspectionExport($inspectionRecap), $inspectionRecap->file_path);
+        
+        if ($request->has('download') && $request->get('download')) {
+            return response()->download(storage_path('app/' . $inspectionRecap->file_path), '5R ' . $inspectionRecap->from_date . ' - ' . $inspectionRecap->to_date . '.xlsx');
+        }
+        return InspectionRecapResource::make($inspectionRecap);
     }
 
     /**
@@ -41,7 +46,7 @@ class ApiInspectionRecapController extends Controller
     public function show(InspectionRecap $inspectionRecap)
     {
         if (request()->has('download') && request()->get('download')) {
-            return Excel::download(new InspectionExport($inspectionRecap), 'inspection_recap.xlsx');
+            return response()->download(storage_path('app/' . $inspectionRecap->file_path), '5R ' . $inspectionRecap->from_date . ' - ' . $inspectionRecap->to_date . '.xlsx');
         }
         return InspectionRecapResource::make($inspectionRecap);
     }

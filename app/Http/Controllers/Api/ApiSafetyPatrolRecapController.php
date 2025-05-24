@@ -30,8 +30,13 @@ class ApiSafetyPatrolRecapController extends Controller
 
         $safetyPatrolRecap = SafetyPatrolRecap::create($data);
 
+        $safetyPatrolRecap->file_path = 'safety-patrol-recap/' . $safetyPatrolRecap->id . '_' . $safetyPatrolRecap->from_date . '_' . $safetyPatrolRecap->to_date . '.xlsx';
+        $safetyPatrolRecap->save();
+
+        Excel::store(new SafetyPatrolExport($safetyPatrolRecap), $safetyPatrolRecap->file_path);
+
         if ($request->has('download') && $request->get('download')) {
-            return Excel::download(new SafetyPatrolExport($safetyPatrolRecap), 'safety_patrol_recap.xlsx');
+            return response()->download(storage_path('app/' . $safetyPatrolRecap->file_path), 'Safety Patrol ' . $safetyPatrolRecap->from_date . ' - ' . $safetyPatrolRecap->to_date . '.xlsx');
         }
         return SafetyPatrolRecapResource::make($safetyPatrolRecap);
     }
@@ -42,7 +47,7 @@ class ApiSafetyPatrolRecapController extends Controller
     public function show(SafetyPatrolRecap $safetyPatrolRecap)
     {
         if (request()->has('download') && request('download')) {
-            return Excel::download(new SafetyPatrolExport($safetyPatrolRecap), 'safety_patrol_recap.xlsx');
+            return response()->download(storage_path('app/' . $safetyPatrolRecap->file_path), 'Safety Patrol ' . $safetyPatrolRecap->from_date . ' - ' . $safetyPatrolRecap->to_date . '.xlsx');
         }
         return SafetyPatrolRecapResource::make($safetyPatrolRecap);
     }
