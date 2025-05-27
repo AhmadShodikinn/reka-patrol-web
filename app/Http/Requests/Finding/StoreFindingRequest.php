@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests\SafetyPatrolRecap;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSafetyPatrolRecapRequest extends FormRequest
+class StoreFindingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,11 +22,7 @@ class StoreSafetyPatrolRecapRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'number' => ['nullable', 'string'],
-            'issued_date' => ['nullable', 'date'],
-            'from_date' => ['required', 'date'],
-            'to_date' => ['required', 'date'],
-            'description' => ['nullable', 'string'],
+            //
         ];
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\SafetyPatrolRecap;
+namespace App\Http\Requests\InspectionRecap;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSafetyPatrolRecapRequest extends FormRequest
+class StoreInspectionRecapRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

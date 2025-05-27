@@ -24,8 +24,9 @@ class UpdateInspectionRequest extends FormRequest
         return [
             'worker_id' => ['nullable', 'exists:users,id'],
             'pic_id' => ['nullable', 'exists:users,id'],
-            'criteria_id' => ['nullable', 'exists:criteria,id'],
-            'findings_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'criteria_id' => ['nullable', 'exists:criterias,id'],
+            'finding_paths' => ['nullable', 'array'],
+            'finding_paths.*' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'findings_description' => ['nullable', 'string'],
             'inspection_location' => ['nullable', 'string'],
             'value' => ['nullable', 'string'],

@@ -52,13 +52,13 @@ const criteriaRes = props.criteriaRes as {
 </script>
 
 <template>
-  <Head title="Manajemen Kriteria" />
+  <Head title="Manajemen Kriteria 5R" />
 
   <AuthenticatedLayout>
     <div class="p-4 mx-auto max-w-screen-2xl md:p-6">
       <!-- Search & Tambah -->
       <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-white">Manajemen Kriteria</h2>
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-white">Manajemen Kriteria 5R</h2>
         <SearchBar action="/criterias" :method="'GET'" :placeholder="'Cari Kriteria'" :input-value="searchQuery"
           :on-submit="(e: Event, value: string) => router.visit(`/criterias${e.target ? `?search=${value}` : ''}`)" />
         <button type="button"

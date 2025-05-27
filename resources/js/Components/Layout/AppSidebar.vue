@@ -13,7 +13,7 @@
       'py-8 flex',
       !isExpanded && !isHovered ? 'lg:justify-center' : 'justify-start',
     ]">
-      <Link :href="route('dashboard')">
+      <Link :href="route('welcome')">
       <div class="flex items-center mb-4 max-w-xs" v-if="isExpanded || isHovered || isMobileOpen">
         <Link :href="route('welcome')" class="mr-4">
         <img src="/images/logo/Asset 2@3x.png" alt="Logo" />
@@ -192,7 +192,7 @@ const menuGroups = [
       },
       {
         icon: TableIcon,
-        name: "Manajemen Kriteria",
+        name: "Manajemen Kriteria 5R",
         path: "criterias.index",
       },
       {
@@ -202,7 +202,7 @@ const menuGroups = [
       },
       {
         icon: ListIcon,
-        name: "Permenaker",
+        name: "Peraturan-peraturan K3",
         path: "letters.index",
       },
     ],

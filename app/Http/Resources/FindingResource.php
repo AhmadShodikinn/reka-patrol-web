@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DocumentResource extends JsonResource
+class FindingResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +16,9 @@ class DocumentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'user' => UserResource::make($this->whenLoaded('user')),
-            'file_name' => $this->file_name,
-            'file_path' => $this->file_path,
-            'file_url' => $this->file_url,
-            'type' => $this->type,
+            'findable_id' => $this->findable_id,
+            'findable_type' => $this->findable_type,
+            'image_path' => $this->image_path,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class SafetyPatrol extends Model
 {
     protected $fillable = [
         'worker_id', 
-        'pic_id', 
-        'findings_path', 
+        'pic_id',
         'findings_description',
         'location', 
         'category', 
@@ -28,5 +29,10 @@ class SafetyPatrol extends Model
     public function pic(): BelongsTo
     {
         return $this->belongsTo(User::class, 'pic_id');
+    }
+
+    public function findings(): MorphMany
+    {
+        return $this->morphMany(Finding::class, 'findable');
     }
 }

@@ -80,7 +80,7 @@ const deleteDocument = async (id: number) => {
       <!-- Header -->
       <div class="mb-6">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-white">
-          Upload Dokumen Permenaker
+          Upload Dokumen Peraturan-peraturan K3
         </h2>
       </div>
       <Alert v-if="showAlert" variant="success" title="Upload Berhasil" :message="alertMessage"></Alert>

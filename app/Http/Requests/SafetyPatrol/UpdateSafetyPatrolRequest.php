@@ -24,7 +24,8 @@ class UpdateSafetyPatrolRequest extends FormRequest
         return [
             'worker_id' => ['nullable', 'exists:users,id'],
             'pic_id' => ['nullable', 'exists:users,id'],
-            'findings_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'finding_paths' => ['nullable', 'array'],
+            'finding_paths.*' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'findings_description' => ['nullable', 'string'],
             'location' => ['nullable', 'string'],
             'category' => ['nullable', 'in:UC,CA'],
