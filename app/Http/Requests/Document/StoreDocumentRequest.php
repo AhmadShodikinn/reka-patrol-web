@@ -23,6 +23,7 @@ class StoreDocumentRequest extends FormRequest
     {
         return [
             'file' => 'required|file|mimes:pdf,doc,docx|max:40960', // 40MB
+            'type' => 'nullable|string|in:permenaker,jsa,memo',
         ];
     }
 }
