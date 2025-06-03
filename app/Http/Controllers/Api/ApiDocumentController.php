@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Document\StoreDocumentRequest;
 use App\Http\Resources\DocumentResource;
 use App\Models\Document;
 use Illuminate\Http\Request;
@@ -27,9 +28,18 @@ class ApiDocumentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDocumentRequest $request)
     {
-        //
+        $type = $request->get('type', 'memo');
+
+        $document = Document::create([
+            'user_id' => auth()->user()->id,
+            'file_name' => $request->file('file')->getClientOriginalName(),
+            'file_path' => $request->file('file')->store('documents/' . $type , 'public'),
+            'type' => $type,
+        ]);
+
+        return DocumentResource::make($document->load($request->get('relations', []))); // $document;
     }
 
     /**
