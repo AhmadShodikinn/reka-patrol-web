@@ -18,7 +18,19 @@ class ApiInspectionController extends Controller
      */
     public function index()
     {
-        return InspectionResource::collection(Inspection::with(request('relations') ?? [])->paginate(request('per_page', 10)));
+        $inspections = Inspection::with(request('relations') ?? []);
+        if (request()->has('from_date') && request()->has('to_date')) {
+            $inspections = $inspections->whereBetween(request('sort_date_by') ?? 'updated_at', [request('from_date'), request('to_date')]);
+        } else {
+            if (request()->has('from_year')) {
+                if (request()->has('from_month')) {
+                    $inspections = $inspections->whereBetween(request('sort_date_by') ?? 'updated_at', [request('from_year') . '-' . request('from_month') . '-01', (request('to_year') ?? request('from_year')) . '-' . (request('to_month') ?? request('from_month')) . '-31']);
+                } else {
+                    $inspections = $inspections->whereBetween(request('sort_date_by') ?? 'updated_at', [request('from_year') . '-01-01', (request('to_year') ?? request('from_year')) . '-12-31']);
+                }
+            }
+        }
+        return InspectionResource::collection($inspections->paginate(request('per_page', 10)));
     }
 
     /**

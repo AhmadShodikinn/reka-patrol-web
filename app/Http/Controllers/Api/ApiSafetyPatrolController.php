@@ -18,7 +18,19 @@ class ApiSafetyPatrolController extends Controller
      */
     public function index()
     {
-        return SafetyPatrolResource::collection(SafetyPatrol::with(request('relations') ?? [])->paginate(request('per_page', 10)));
+        $safetyPatrols = SafetyPatrol::with(request('relations') ?? []);
+        if (request()->has('from_date') && request()->has('to_date')) {
+            $safetyPatrols = $safetyPatrols->whereBetween(request('sort_date_by') ?? 'updated_at', [request('from_date'), request('to_date')]);
+        } else {
+            if (request()->has('from_year')) {
+                if (request()->has('from_month')) {
+                    $safetyPatrols = $safetyPatrols->whereBetween(request('sort_date_by') ?? 'updated_at', [request('from_year') . '-' . request('from_month') . '-01', (request('to_year') ?? request('from_year')) . '-' . (request('to_month') ?? request('from_month')) . '-31']);
+                } else {
+                    $safetyPatrols = $safetyPatrols->whereBetween(request('sort_date_by') ?? 'updated_at', [request('from_year') . '-01-01', (request('to_year') ?? request('from_year')) . '-12-31']);
+                }
+            }
+        }
+        return SafetyPatrolResource::collection($safetyPatrols->paginate(request('per_page', 10)));
     }
 
     /**
