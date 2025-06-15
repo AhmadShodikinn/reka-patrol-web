@@ -33,6 +33,18 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // Check if the user is an admin
+        $user = Auth::user()->load('position');
+        if (optional($user->position)->position_name !== 'Admin') {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->withErrors([
+                'email' => 'Akses ditolak. Hanya Admin yang dapat login.',
+            ]);
+        }
+
         return redirect()->intended(route('users.index', absolute: false));
     }
 

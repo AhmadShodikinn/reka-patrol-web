@@ -28,7 +28,7 @@ class StoreSafetyPatrolRequest extends FormRequest
             'finding_paths.*' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'findings_description' => ['required', 'string'],
             'location' => ['required', 'string'],
-            'category' => ['required', 'in:UC,CA'],
+            'category' => ['required', 'in:Unsafe Condition,Unsafe Action'],
             'risk' => ['required', 'string'],
             'checkup_date' => ['required', 'date'],
             'action_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
