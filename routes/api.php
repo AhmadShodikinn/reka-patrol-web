@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['as' => 'api.'], function () {
     Route::post('login', [ApiAuthController::class, 'login'])->name('login');
+    Route::post('reset-password', [ApiAuthController::class, 'resetPassword']);
     
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('logout', [ApiAuthController::class, 'logout'])->name('logout');
