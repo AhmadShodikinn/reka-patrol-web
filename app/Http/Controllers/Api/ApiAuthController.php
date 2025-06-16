@@ -33,8 +33,9 @@ class ApiAuthController extends Controller
         $user->save();
 
         return response()->json([
+            'success' => true,
             'message' => 'Password berhasil direset. Silakan login dengan password baru.',
-            'user' => new UserResource($user->load('position')),
+            'user' => new UserResource($user->load('position'))
         ]);
     }
 
