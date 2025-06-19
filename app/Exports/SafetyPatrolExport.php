@@ -23,7 +23,9 @@ class SafetyPatrolExport implements FromCollection, WithHeadings, WithDrawings, 
 
     private Collection $safetyPatrols;
     public function __construct(protected SafetyPatrolRecap $safetyPatrolRecap) {
-        $this->safetyPatrols = SafetyPatrol::whereBetween('created_at', [$this->safetyPatrolRecap->from_date, $this->safetyPatrolRecap->to_date])->get();
+        $this->safetyPatrols = SafetyPatrol::whereBetween('created_at', [$this->safetyPatrolRecap->from_date, $this->safetyPatrolRecap->to_date])
+                                           ->whereIsValidEntry(true)
+                                           ->get();
     }
 
     public function title(): string
@@ -51,6 +53,9 @@ class SafetyPatrolExport implements FromCollection, WithHeadings, WithDrawings, 
 
     public function collection()
     {
+        if ($this->safetyPatrols->isEmpty()) {
+            return collect([array_fill_keys($this->headings(), '')]);
+        }
         return $this->safetyPatrols->map(function ($safetyPatrol, $index) {
             return [
                 'No' => $index + 1,

@@ -26,6 +26,7 @@ class InspectionSheet implements WithDrawings, WithStyles, WithTitle, WithMappin
     private array $inspectionRow;
     public function __construct(protected InspectionRecap $inspectionRecap, protected String $locationID) {
         $this->inspections = Inspection::whereBetween('created_at', [$this->inspectionRecap->from_date, $this->inspectionRecap->to_date])
+                                ->whereIsValidEntry(true)
                                 ->whereHas('criteria', fn ($query) => $query->whereLocationId($this->locationID))
                                 ->get()->sortBy(function ($inspection) {
                                     return $inspection->criteria->criteria_type;
@@ -61,7 +62,13 @@ class InspectionSheet implements WithDrawings, WithStyles, WithTitle, WithMappin
         $criterias = Criteria::whereLocationId($this->locationID)->get()->sortBy('criteria_type');
         $result = [];
         $number = 1;
-        $currentType = $this->inspections->first()->criteria->criteria_type;
+        $currentType = $criterias->first()->criteria_type;
+        $this->criteriaTypeGroupRow[$currentType] = 8;
+        $criterias->each(function ($criteria) use (&$currentType, $criterias) {
+            if (isset($this->criteriaTypeGroupRow[$criteria->criteria_type])) return;
+            $this->criteriaTypeGroupRow[$criteria->criteria_type] = $this->criteriaTypeGroupRow[$currentType] + $criterias->where('criteria_type', $currentType)->count() + 1;
+            $currentType = $criteria->criteria_type;
+        });
         $typeIterator = 0;
         $criterias->values()->each(function ($criteria, $index) use (&$result, &$number, &$currentType, &$typeIterator) {
             if ($currentType != $criteria->criteria_type) {
@@ -72,7 +79,7 @@ class InspectionSheet implements WithDrawings, WithStyles, WithTitle, WithMappin
             $inspection = $this->inspections->first(function ($inspection) use ($criteria) {
                 return $inspection->criteria_id == $criteria->id;
             });
-            if ($inspection) $this->inspectionRow[$inspection->id] = $index + 9 + $typeIterator;
+            if ($inspection) $this->inspectionRow[$inspection->id] = $index + 8 + $typeIterator;
             $result[] = [
                 'No' => $number++,
                 'Kriteria' => $criteria->criteria_name,
@@ -86,16 +93,6 @@ class InspectionSheet implements WithDrawings, WithStyles, WithTitle, WithMappin
                 'Nilai' => $inspection ? $inspection->value : '',
             ];
         });
-        $currentType = $this->inspections->first()->criteria->criteria_type;
-        $this->criteriaTypeGroupRow[$currentType] = 8;
-        $criterias->each(function ($criteria) use (&$currentType, $criterias) {
-            if (isset($this->criteriaTypeGroupRow[$criteria->criteria_type])) return;
-            $this->criteriaTypeGroupRow[$criteria->criteria_type] = $this->criteriaTypeGroupRow[$currentType] + $criterias->where('criteria_type', $currentType)->count() + 1;
-            $currentType = $criteria->criteria_type;
-        });
-
-        logger('inspection', [$this->inspectionRow]);
-
         return collect($result);
     }
 
@@ -232,6 +229,7 @@ class InspectionSheet implements WithDrawings, WithStyles, WithTitle, WithMappin
 
         $sheet->getStyle('A1:I'.$lastRow)->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
         foreach (['Rapi', 'Resik', 'Rawat', 'Rajin', 'Ringkas'] as $type) {
+        // foreach (Criteria::whereLocationId($this->locationID)->get()->sortBy('criteria_type')->pluck('criteria_type')->toArray() as $type) {
             if (isset($this->criteriaTypeGroupRow[$type])) {
                 $sheet->mergeCells('A'.$this->criteriaTypeGroupRow[$type].':I'.$this->criteriaTypeGroupRow[$type]);
                 $sheet->getStyle('A'.$this->criteriaTypeGroupRow[$type].':I'.$this->criteriaTypeGroupRow[$type])
