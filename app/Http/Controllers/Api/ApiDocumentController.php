@@ -15,7 +15,8 @@ class ApiDocumentController extends Controller
      */
     public function index()
     {
-        $documents = Document::with(request('relations', []));
+        $documents = Document::with(request('relations', []))
+            ->orderBy('file_name');
         if (request()->has('document_type')) {
             $documents = $documents->whereType(request('document_type'));
         }
