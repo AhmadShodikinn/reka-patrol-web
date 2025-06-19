@@ -15,6 +15,7 @@ class SafetyPatrol extends Model
         'findings_description',
         'location', 
         'category', 
+        'is_valid_entry',
         'risk', 
         'checkup_date',
         'action_path', 

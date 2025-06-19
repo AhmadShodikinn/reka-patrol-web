@@ -24,6 +24,7 @@ class SafetyPatrolResource extends JsonResource
             'findings_description' => $this->findings_description,
             'location' => $this->location,
             'category' => $this->category,
+            'is_valid_entry' => $this->is_valid_entry,
             'risk' => $this->risk,
             'checkup_date' => $this->checkup_date,
             'action_path' => $this->action_path,

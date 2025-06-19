@@ -15,6 +15,7 @@ class Inspection extends Model
         'findings_description',
         'criteria_id',
         'inspection_location', 
+        'is_valid_entry',
         'value', 
         'suitability', 
         'checkup_date',

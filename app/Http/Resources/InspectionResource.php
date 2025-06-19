@@ -25,6 +25,7 @@ class InspectionResource extends JsonResource
             'findings' => FindingResource::collection($this->whenLoaded('findings')),
             'findings_description' => $this->findings_description,
             'inspection_location' => $this->inspection_location,
+            'is_valid_entry' => $this->is_valid_entry,
             'value' => $this->value,
             'suitability' => $this->suitability,
             'checkup_date' => $this->checkup_date,
