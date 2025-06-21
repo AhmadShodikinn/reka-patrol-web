@@ -30,6 +30,9 @@ class ApiInspectionController extends Controller
                 }
             }
         }
+        if (request()->has('is_valid_entry')) {
+            $inspections = $inspections->whereIsValidEntry(request('is_valid_entry'));
+        }
         return InspectionResource::collection($inspections->paginate(request('per_page', 10)));
     }
 

@@ -30,6 +30,9 @@ class ApiSafetyPatrolController extends Controller
                 }
             }
         }
+        if (request()->has('is_valid_entry')) {
+            $safetyPatrols = $safetyPatrols->whereIsValidEntry(request('is_valid_entry'));
+        }
         return SafetyPatrolResource::collection($safetyPatrols->paginate(request('per_page', 10)));
     }
 
