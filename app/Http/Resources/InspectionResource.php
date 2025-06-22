@@ -26,6 +26,8 @@ class InspectionResource extends JsonResource
             'findings_description' => $this->findings_description,
             'inspection_location' => $this->inspection_location,
             'is_valid_entry' => $this->is_valid_entry,
+            'has_memo' => $this->hasMemo(),
+            'memo' => $this->when($this->hasMemo(), fn () => DocumentResource::make($this->whenLoaded('memo'))),
             'value' => $this->value,
             'suitability' => $this->suitability,
             'checkup_date' => $this->checkup_date,

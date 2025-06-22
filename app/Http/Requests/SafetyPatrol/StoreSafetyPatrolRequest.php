@@ -29,6 +29,7 @@ class StoreSafetyPatrolRequest extends FormRequest
             'findings_description' => ['required', 'string'],
             'location' => ['required', 'string'],
             'category' => ['required', 'in:Unsafe Condition,Unsafe Action'],
+            'memo_id' => ['nullable', 'exists:documents,id'],
             'risk' => ['required', 'string'],
             'checkup_date' => ['required', 'date'],
             'action_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],

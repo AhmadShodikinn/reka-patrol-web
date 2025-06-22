@@ -25,6 +25,8 @@ class SafetyPatrolResource extends JsonResource
             'location' => $this->location,
             'category' => $this->category,
             'is_valid_entry' => $this->is_valid_entry,
+            'has_memo' => $this->hasMemo(),
+            'memo' => $this->when($this->hasMemo(), fn () => DocumentResource::make($this->whenLoaded('memo'))),
             'risk' => $this->risk,
             'checkup_date' => $this->checkup_date,
             'action_path' => $this->action_path,

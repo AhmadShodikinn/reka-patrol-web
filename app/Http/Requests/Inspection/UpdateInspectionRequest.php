@@ -30,6 +30,7 @@ class UpdateInspectionRequest extends FormRequest
             'findings_description' => ['nullable', 'string'],
             'inspection_location' => ['nullable', 'string'],
             'is_valid_entry' => ['nullable', 'boolean'],
+            'memo_id' => ['nullable', 'exists:documents,id'],
             'value' => ['nullable', 'string'],
             'suitability' => ['nullable', 'boolean'],
             'checkup_date' => ['nullable', 'date'],
