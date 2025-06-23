@@ -15,6 +15,8 @@ class SafetyPatrol extends Model
         'findings_description',
         'location', 
         'category', 
+        'is_valid_entry',
+        'memo_id',
         'risk', 
         'checkup_date',
         'action_path', 
@@ -34,5 +36,15 @@ class SafetyPatrol extends Model
     public function findings(): MorphMany
     {
         return $this->morphMany(Finding::class, 'findable');
+    }
+
+    public function memo(): BelongsTo
+    {
+        return $this->belongsTo(Document::class, 'memo_id');
+    }
+
+    public function hasMemo(): bool
+    {
+        return $this->memo()->exists();
     }
 }

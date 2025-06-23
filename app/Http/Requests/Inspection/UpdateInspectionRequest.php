@@ -29,6 +29,8 @@ class UpdateInspectionRequest extends FormRequest
             'finding_paths.*' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'findings_description' => ['nullable', 'string'],
             'inspection_location' => ['nullable', 'string'],
+            'is_valid_entry' => ['nullable', 'boolean'],
+            'memo_id' => ['nullable', 'exists:documents,id'],
             'value' => ['nullable', 'string'],
             'suitability' => ['nullable', 'boolean'],
             'checkup_date' => ['nullable', 'date'],

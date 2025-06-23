@@ -30,6 +30,7 @@ class StoreInspectionRequest extends FormRequest
             'finding_paths.*' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'findings_description' => ['required', 'string'],
             'inspection_location' => ['required', 'string'],
+            'memo_id' => ['nullable', 'exists:documents,id'],
             'value' => ['required', 'string'],
             'suitability' => ['required', 'boolean'],
             'checkup_date' => ['required', 'date'],

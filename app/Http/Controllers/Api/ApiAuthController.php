@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Http\Requests\Auth\ApiLoginRequest;
+use App\Http\Requests\Auth\ApiResetPasswordRequest;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Hash;
 
 class ApiAuthController extends Controller
 {
@@ -20,6 +23,22 @@ class ApiAuthController extends Controller
             'message' => 'failed',
         ], 401);
     }
+
+    
+    public function resetPassword(ApiResetPasswordRequest $request)
+    {
+        $user = User::where('nip', $request->nip)->first();
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password berhasil direset. Silakan login dengan password baru.',
+            'user' => new UserResource($user->load('position'))
+        ]);
+    }
+
 
     public function logout() {
         auth()->user()->tokens()->delete();

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('findings_path');
             $table->string('findings_description');
             $table->string('location');
-            $table->enum('category', ['UC', "CA"]);
+            $table->enum('category', ['Unsafe Condition', "Unsafe Action"]);
             $table->string('risk');
             $table->date('checkup_date');
             $table->string('action_path')->nullable();

@@ -29,6 +29,8 @@ class UpdateSafetyPatrolRequest extends FormRequest
             'findings_description' => ['nullable', 'string'],
             'location' => ['nullable', 'string'],
             'category' => ['nullable', 'in:UC,CA'],
+            'is_valid_entry' => ['nullable', 'boolean'],
+            'memo_id' => ['nullable', 'exists:documents,id'],
             'risk' => ['nullable', 'string'],
             'checkup_date' => ['nullable', 'date'],
             'action_path' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
