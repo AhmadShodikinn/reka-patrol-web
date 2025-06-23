@@ -33,7 +33,7 @@ class ApiResetPasswordRequest extends FormRequest
             'nip.required' => 'NIP wajib diisi.',
             'nip.exists' => 'NIP tidak ditemukan.',
             'password.required' => 'Password wajib diisi.',
-            'password.min' => 'Password minimal harus 6 karakter.',
+            'password.min' => 'Password minimal harus 8 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ];
     }
