@@ -6,7 +6,10 @@ use App\Exports\SafetyPatrolExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SafetyPatrolRecap\StoreSafetyPatrolRecapRequest;
 use App\Http\Resources\SafetyPatrolRecapResource;
+use App\Models\SafetyPatrol;
 use App\Models\SafetyPatrolRecap;
+use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -47,6 +50,14 @@ class ApiSafetyPatrolRecapController extends Controller
     public function show(SafetyPatrolRecap $safetyPatrolRecap)
     {
         if (request()->has('download') && request('download')) {
+            if (request()->has('in_pdf') && request()->get('in_pdf')) {
+                $safetyPatrols = SafetyPatrol::whereBetween('created_at', [$safetyPatrolRecap->from_date, $safetyPatrolRecap->to_date])
+                                ->whereActionPath(null)
+                                ->get();
+                $workers = User::whereIn('id', $safetyPatrols->pluck('worker_id')->unique())->get();
+                $pdf = Pdf::loadView('safetypatrol-recaps-pdf', compact('safetyPatrolRecap', 'safetyPatrols', 'workers'));
+                return $pdf->download('Safety Patrol ' . $safetyPatrolRecap->from_date . ' - ' . $safetyPatrolRecap->to_date . '.pdf');
+            }
             return response()->download(storage_path('app/' . $safetyPatrolRecap->file_path), 'Safety Patrol ' . $safetyPatrolRecap->from_date . ' - ' . $safetyPatrolRecap->to_date . '.xlsx');
         }
         return SafetyPatrolRecapResource::make($safetyPatrolRecap);

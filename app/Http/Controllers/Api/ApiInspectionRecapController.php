@@ -6,7 +6,10 @@ use App\Exports\InspectionExport\InspectionExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InspectionRecap\StoreInspectionRecapRequest;
 use App\Http\Resources\InspectionRecapResource;
+use App\Models\Inspection;
 use App\Models\InspectionRecap;
+use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ApiInspectionRecapController extends Controller
@@ -46,8 +49,18 @@ class ApiInspectionRecapController extends Controller
     public function show(InspectionRecap $inspectionRecap)
     {
         if (request()->has('download') && request()->get('download')) {
+            if (request()->has('in_pdf') && request()->get('in_pdf')) {
+                $inspections = Inspection::whereBetween('created_at', [$inspectionRecap->from_date, $inspectionRecap->to_date])
+                                ->whereActionPath(null)
+                                ->get();
+                $workers = User::whereIn('id', $inspections->pluck('worker_id')->unique())->get();
+                $pdf = Pdf::loadView('inspection-recaps-pdf', compact('inspectionRecap', 'inspections', 'workers'));
+                return $pdf->download('5R ' . $inspectionRecap->from_date . ' - ' . $inspectionRecap->to_date . '.pdf');
+            }
             return response()->download(storage_path('app/' . $inspectionRecap->file_path), '5R ' . $inspectionRecap->from_date . ' - ' . $inspectionRecap->to_date . '.xlsx');
         }
+
+
         return InspectionRecapResource::make($inspectionRecap);
     }
 }
