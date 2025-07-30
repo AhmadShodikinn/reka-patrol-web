@@ -52,7 +52,5 @@ jobs:
         with:
           dep: deploy
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Deploy to Production
         env:
           DOT_ENV: ${{ secrets.DOT_ENV_PRODUCTION }}
-        run: php8.2 vendor/bin/dep deploy rekapatrol --branch="deploy" -vv
